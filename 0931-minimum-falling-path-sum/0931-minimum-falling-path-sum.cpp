@@ -1,7 +1,31 @@
 class Solution {
+    int f (int i, int j, vector<vector<int>>& a,  vector<vector<int>> &dp){
+        int n = a.size();
+        if (j<0 || j>=n){
+            return 1e5;
+        }
+        if (i==0){ //base case
+            return a[i][j];
+        }
+        if(dp[i][j]!=-1){return dp[i][j];}
+        
+        int u = a[i][j]+f(i-1, j, a, dp);
+        int ld = a[i][j]+f(i-1,j-1,a,dp);
+        int rd = a[i][j]+ f(i-1, j+1, a,dp);
+        
+        return dp[i][j]=min(u,min(ld,rd));
+    }
 public:
     int minFallingPathSum(vector<vector<int>>& a) {
-        int n  = a.size();
+        int n = a.size();
+        vector<vector<int>> dp(n,vector<int>(n,-1));
+        int mini = INT_MAX;
+        for (int i=0; i<n; i++){
+            mini = min(mini, f(n-1,i,a,dp));
+        }
+        
+        return mini;
+       /* int n  = a.size();
         int dp[n][n];
         for (int j=0; j<n ; j++){
             dp[0][j]= a[0][j];
@@ -26,6 +50,6 @@ public:
             mini = min(mini, dp[n-1][k]);
         }
         
-        return mini;
+        return mini; */
     }
 };
