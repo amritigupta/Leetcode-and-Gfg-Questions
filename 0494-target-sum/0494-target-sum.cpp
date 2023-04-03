@@ -1,43 +1,50 @@
 class Solution {
-
+    int f (vector<int> &nums, int target, int ind, vector<vector<int>> &dp){
+        if (ind==0){ // BASE CASES
+            
+            if (target==0 && nums[0]==0){
+                return 2; //pick or notpick
+            }
+            else if(target==0 && nums[0]!=0){
+                return 1; //notpick
+            }
+            else if(nums[0]!=0 && target==nums[0]){
+                return 1; //pick
+            }
+            else{
+                return 0;
+            }
+            
+        }
+        
+        if (dp[ind][target]!=-1){
+            return dp[ind][target];
+        }
+        
+        int nottake = 0+f(nums,target,ind-1,dp);
+        int take = 0;
+        if (nums[ind]<=target){
+            take= f(nums, target-nums[ind], ind-1, dp);
+        }
+        
+        return dp[ind][target]= take+nottake;
+        
+        
+    }
 public:
-int countPartitionsUtil(int ind, int target, vector<int>& arr, vector<vector<int>> &dp){
-
-     if(ind == 0){
-        if(target==0 && arr[0]==0)
-            return 2;
-        if(target==0 || target == arr[0])
-            return 1;
-        return 0;
-    }
-    
-    if(dp[ind][target]!=-1)
-        return dp[ind][target];
+    int findTargetSumWays(vector<int>& nums, int target) {
+        int n = nums.size();
+        int totsum=0;
+        for (int i=0; i<n; i++){
+            totsum+=nums[i];
+        }
         
-    int notTaken = countPartitionsUtil(ind-1,target,arr,dp);
-    
-    int taken = 0;
-    if(arr[ind]<=target)
-        taken = countPartitionsUtil(ind-1,target-arr[ind],arr,dp);
+        if (totsum-target<0 || (totsum-target)%2){
+            return 0;
+        }
+        int S = (totsum-target)/2;
+        vector<vector<int>> dp(n, vector<int> (S+1,-1));
         
-    return dp[ind][target]= (notTaken + taken);
-}
-
-int findTargetSumWays( vector<int>& arr, int target){
-    int n = arr.size();
-    int totSum = 0;
-    for(int i=0; i<arr.size();i++){
-        totSum += arr[i];
+        return f(nums, S, n-1, dp);
     }
-    
-    //Checking for edge cases
-    if(totSum-target<0) return 0;
-    if((totSum-target)%2==1) return 0;
-    
-    int s2 = (totSum-target)/2;
-    
-    vector<vector<int>> dp(n,vector<int>(s2+1,-1));
-    return countPartitionsUtil(n-1,s2,arr,dp);
-}
-
 };
