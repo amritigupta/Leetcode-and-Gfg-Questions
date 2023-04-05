@@ -1,5 +1,5 @@
 class Solution {
-    int f (int ind, int prevind , vector<int> &nums, int n, vector<vector<int>> &dp){
+    int f (int ind, int prevind , vector<int> &nums, int &n, vector<vector<int>> &dp){
         if (ind == n){
             return 0;
         }
