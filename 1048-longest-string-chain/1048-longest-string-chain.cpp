@@ -35,7 +35,9 @@ class Solution {
                     dp[i] = dp[j] + 1;
                 }
             }
-            maxi = max(maxi , dp[i]);
+            if(dp[i]>maxi){
+                maxi = dp[i];
+            }
         }
         return maxi;
     }
