@@ -2,11 +2,13 @@
 class Solution {
     public:
    bool checkpossible(string s1 ,string s2){
-        if(s1.size() != s2.size() + 1) return false;
+        int s1s = s1.size();
+       int s2s = s2.size();
+        if(s1s != s2s + 1) return false;
         int first = 0;
         int second = 0;
-        while(first < s1.size()){
-            if( second < s2.size() && s1[first] == s2[second]){
+        while(first < s1s){
+            if( second < s2s && s1[first] == s2[second]){
                 first++;
                 second++;
             }
@@ -15,7 +17,7 @@ class Solution {
             }
         }
 
-        if(first == s1.size() && second == s2.size()) return true;
+        if(first == s1s && second == s2s) return true;
         else return false;
     }
 
