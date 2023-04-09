@@ -7,17 +7,17 @@ class Solution {
         for(auto it: graph[node]){
             if(!vis[it]){
                 if (dfs(it, vis, pathvis, graph,check)==true) {
-                    check[node]=0;
+                    // check[node]=0;
                     return true;
                 }
             }
             if(vis[it] && pathvis[it]){
-                check[node]=0;
+                // check[node]=0;
                 return true; //cycle
             }
         }
         
-        check[node]=1; //safe
+        // check[node]=1; //safe
         pathvis[node]=0;
         return false;
     }
@@ -36,7 +36,7 @@ public:
             }
         }
         for(int i=0; i<V; i++){
-            if(check[i]==1){
+            if(pathvis[i]==0){
                 safenodes.push_back(i);
             }
         }
