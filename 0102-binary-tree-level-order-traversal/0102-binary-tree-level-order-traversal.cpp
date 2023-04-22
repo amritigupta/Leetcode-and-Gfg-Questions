@@ -11,32 +11,7 @@
  */
 class Solution {
 public:
-//     vector<vector<int>> levelOrder(TreeNode* root) {
-//         vector<vector<int>>  ans;
-//         if (root == NULL){
-//             return ans;
-//         }
-        
-//         queue<TreeNode*> q;
-//         q.push(root);
-//         while(!q.empty()){
-//             int size = q.size();
-//             vector<int> level;
-//             for(int i=0 ; i< size; i++){
-//                 auto it = q.front();
-//                 q.pop();
-//                 if (it->left){
-//                     q.push(it->left);
-//                 }
-//                 if (it->right){
-//                     q.push(it->right);
-//                 }
-//                 level.push_back(it->val);
-//             }
-//             ans.push_back(level);
-//         }
-//         return ans;
-//     }
+
     
      vector<vector<int>> levelOrder(TreeNode* root) {
         vector<vector<int>> nodes;
@@ -83,4 +58,30 @@ public:
             }            
         }
     }
+    //     vector<vector<int>> levelOrder(TreeNode* root) {
+//         vector<vector<int>>  ans;
+//         if (root == NULL){
+//             return ans;
+//         }
+        
+//         queue<TreeNode*> q;
+//         q.push(root);
+//         while(!q.empty()){
+//             int size = q.size();
+//             vector<int> level;
+//             for(int i=0 ; i< size; i++){
+//                 auto it = q.front();
+//                 q.pop();
+//                 if (it->left){
+//                     q.push(it->left);
+//                 }
+//                 if (it->right){
+//                     q.push(it->right);
+//                 }
+//                 level.push_back(it->val);
+//             }
+//             ans.push_back(level);
+//         }
+//         return ans;
+//     }
 };
