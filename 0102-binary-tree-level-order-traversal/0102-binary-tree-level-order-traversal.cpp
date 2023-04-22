@@ -11,34 +11,34 @@
  */
 class Solution {
 public:
-    vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>>  ans;
-        if (root == NULL){
-            return ans;
-        }
+//     vector<vector<int>> levelOrder(TreeNode* root) {
+//         vector<vector<int>>  ans;
+//         if (root == NULL){
+//             return ans;
+//         }
         
-        queue<TreeNode*> q;
-        q.push(root);
-        while(!q.empty()){
-            int size = q.size();
-            vector<int> level;
-            for(int i=0 ; i< size; i++){
-                auto it = q.front();
-                q.pop();
-                if (it->left){
-                    q.push(it->left);
-                }
-                if (it->right){
-                    q.push(it->right);
-                }
-                level.push_back(it->val);
-            }
-            ans.push_back(level);
-        }
-        return ans;
-    }
+//         queue<TreeNode*> q;
+//         q.push(root);
+//         while(!q.empty()){
+//             int size = q.size();
+//             vector<int> level;
+//             for(int i=0 ; i< size; i++){
+//                 auto it = q.front();
+//                 q.pop();
+//                 if (it->left){
+//                     q.push(it->left);
+//                 }
+//                 if (it->right){
+//                     q.push(it->right);
+//                 }
+//                 level.push_back(it->val);
+//             }
+//             ans.push_back(level);
+//         }
+//         return ans;
+//     }
     
-    /* vector<vector<int>> levelOrder(TreeNode* root) {
+     vector<vector<int>> levelOrder(TreeNode* root) {
         vector<vector<int>> nodes;
         levelorder(root, nodes);
         return nodes;
@@ -61,6 +61,8 @@ public:
             q.pop();
             
             if (it == NULL && q.size()==0){
+                nodes.push_back(level);
+                level.clear();
                 break;
             }
             
@@ -73,12 +75,12 @@ public:
             
             level.push_back(it->val);
             
-            if (!it->left){
+            if (it->left!=NULL){
                 q.push(it->left);
             }
-            if (!it->right){
+            if (it->right!=NULL){
                 q.push(it->right);
             }            
         }
-    } */
+    }
 };
