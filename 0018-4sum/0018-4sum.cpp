@@ -1,59 +1,31 @@
 class Solution {
 public:
-    vector<vector<int>> fourSum(vector<int>& num, int target) {
-         vector<vector<int> > res;
-        
-        if (num.size()<4)
-            return res;
-        int n = num.size(); 
-        sort(num.begin(),num.end());
-    
-        for (int i = 0; i < n; i++) {
-        
-            long long target_3 = target - num[i];
-        
-            for (int j = i + 1; j < n; j++) {
-            
-                long long target_2 = (long long)target_3 - num[j];
-            
-                int front = j + 1;
-                int back = n - 1;
-            
-                while(front < back) {
-                
-                    long long two_sum = num[front] + num[back];
-                
-                    if (two_sum < target_2) front++;
-                
-                    else if (two_sum > target_2) back--;
-                
-                    else {
-                    
-                        vector<int> quadruplet(4, 0);
-                        quadruplet[0] = num[i];
-                        quadruplet[1] = num[j];
-                        quadruplet[2] = num[front];
-                        quadruplet[3] = num[back];
-                        res.push_back(quadruplet);
-                    
-                        // Processing the duplicates of number 3
-                        while (front < back && num[front] == quadruplet[2]) ++front;
-                    
-                        // Processing the duplicates of number 4
-                        while (front < back && num[back] == quadruplet[3]) --back;
-                
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> output;
+        for(int i=0; i<n-3; i++){
+            for(int j=i+1; j<n-2; j++){
+                long long newTarget = (long long)target - (long long)nums[i] - (long long)nums[j];
+                int low = j+1, high = n-1;
+                while(low < high){
+                    if(nums[low] + nums[high] < newTarget){
+                        low++;
+                    }
+                    else if(nums[low] + nums[high] > newTarget){
+                        high--;
+                    }
+                    else{
+                        output.push_back({nums[i], nums[j], nums[low], nums[high]});
+                        int tempIndex1 = low, tempIndex2 = high;
+                        while(low < high && nums[low] == nums[tempIndex1]) low++;
+                        while(low < high && nums[high] == nums[tempIndex2]) high--;
                     }
                 }
-                
-                // Processing the duplicates of number 2
-                while(j + 1 < n && num[j + 1] == num[j]) ++j;
+                while(j+1 < n && nums[j] == nums[j+1]) j++;
             }
-        
-            // Processing the duplicates of number 1
-            while (i + 1 < n && num[i + 1] == num[i]) ++i;
-        
+            while(i+1 < n && nums[i] == nums[i+1]) i++;
         }
-    
-        return res;
+        return output;
     }
 };
