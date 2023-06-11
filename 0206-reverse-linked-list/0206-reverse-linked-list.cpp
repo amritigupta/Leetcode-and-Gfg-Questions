@@ -26,22 +26,35 @@ public:
 //     }
     
     // recursive
-    void reverse(ListNode* &head, ListNode* &curr, ListNode* &prev){
-        if(curr==NULL){
-            head=prev; //returning new head as prev
-            return;
-        }
+//     void reverse(ListNode* &head, ListNode* &curr, ListNode* &prev){
+//         if(curr==NULL){
+//             head=prev; //returning new head as prev
+//             return;
+//         }
         
-        ListNode* forward = curr->next;
-        reverse(head,forward,curr);
+//         ListNode* forward = curr->next;
+//         reverse(head,forward,curr);
         
-        curr->next = prev;  
-    }
+//         curr->next = prev;  
+//     }
     
-    ListNode* reverseList(ListNode* head) {
-        ListNode* curr=head;
-        ListNode* prev = NULL;
-        reverse(head,curr,prev);
-        return head;
-    }
+//     ListNode* reverseList(ListNode* head) {
+//         ListNode* curr=head;
+//         ListNode* prev = NULL;
+//         reverse(head,curr,prev);
+//         return head;
+//     }
+    
+     ListNode* reverseList(ListNode* head) {
+         if(!head || !head->next){
+             return head;
+         }
+         
+         ListNode* chotahead= reverseList(head->next);
+         
+         head->next->next = head;
+         head->next = NULL;
+         
+         return chotahead;
+     }
 };
