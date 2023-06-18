@@ -1,4 +1,3 @@
-
 class Solution {
 
 struct Node {
@@ -13,10 +12,13 @@ struct Node {
   void put(int ind, Node * node) {
     links[ind] = node;
   }
+    
 };
 
+    
 class Trie {
-  private: Node * root;
+  private: 
+  Node * root;
 
   public:
     Trie() {
@@ -35,6 +37,7 @@ class Trie {
         node = node -> get(bit);
       }
     }
+    
   public:
     int findMax(int num) {
       Node * node = root;
@@ -57,15 +60,12 @@ public:
     int findMaximumXOR(vector<int>& nums) {
        Trie trie;
        int n = nums.size();
-        
-       for (int i = 0; i < n; i++) {
+        int maxi=0;
+        for(int i=0;i<n;i++)
+        {
           trie.insert(nums[i]);
-       }    
-        
-       int maxi = 0;
-       for (int i = 0; i < n; i++) {
-         maxi = max(maxi, trie.findMax(nums[i]));
-       }
+          maxi = max(maxi, trie.findMax(nums[i]));
+        }
         
        return maxi;       
     }
