@@ -57,13 +57,16 @@ public:
     int findMaximumXOR(vector<int>& nums) {
        Trie trie;
        int n = nums.size();
+        
        for (int i = 0; i < n; i++) {
           trie.insert(nums[i]);
        }    
+        
        int maxi = 0;
-       for (int i = 0; i < n-1; i++) {
+       for (int i = 0; i < n; i++) {
          maxi = max(maxi, trie.findMax(nums[i]));
        }
+        
        return maxi;       
     }
 };
