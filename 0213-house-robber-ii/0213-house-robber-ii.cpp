@@ -1,34 +1,26 @@
+
 class Solution {
-
-    int fhelp(vector<int> arr, int ind, vector<int> &dp){
-        if (ind==0){return arr[ind];}
-        if (ind<0){return 0;}
-
-        if (dp[ind]!=-1){return dp[ind];}
-
-        int pick = arr[ind]+ fhelp(arr,ind-2,dp);
-        int notpick = 0+ fhelp(arr,ind-1,dp);
-
-        return dp[ind]=max(pick,notpick);
-    }
-
-    int f (vector<int> arr, int n){
-        vector<int> dp(n,-1);
-
-        return fhelp(arr, n-1, dp);
-
-    }
 public:
+    int houseRobber(vector<int>& nums) {
+      
+        int dp[nums.size()+1];
+        dp[0] = nums[0];
+        dp[1] = max(nums[0], nums[1]);
+        for (int i=2; i<nums.size(); i++)
+            dp[i] = max(dp[i-1], nums[i]+dp[i-2]);
+        
+        return dp[nums.size()-1];
+    }
+    
     int rob(vector<int>& nums) {
-
-        if (nums.size()==1){return nums[0];}
-        vector<int> temp1, temp2;
-        for (int i=0; i<nums.size(); i++){
-             if (i!=0){temp1.push_back(nums[i]);}
-             if (i!=nums.size()-1) {temp2.push_back(nums[i]);}
-        }
-        int x = f(temp1, temp1.size());
-        int y = f(temp2, temp2.size());
-        return max(x,y);
+        // edge cases:
+        if (nums.size() == 0) return 0;
+        if (nums.size() == 1) return nums[0];
+        if (nums.size() == 2) return max(nums[0], nums[1]);
+        
+        // either use first house and can't use last or last and not first:
+        vector<int> v1(nums.begin(), nums.end()-1);
+        vector<int> v2(nums.begin()+1, nums.end());
+        return max(houseRobber(v1), houseRobber(v2));
     }
 };
