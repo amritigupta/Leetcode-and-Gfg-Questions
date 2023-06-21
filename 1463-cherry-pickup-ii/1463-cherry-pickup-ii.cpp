@@ -4,8 +4,8 @@ class Solution {
             return 0;
         }
         if(i==m-1){
-            if(j1==j2) return dp[i][j1][j2] = grid[i][j1];
-            else return dp[i][j1][j2]= grid[i][j1]+grid[i][j2];
+            if(j1==j2) return  grid[i][j1];
+            else return grid[i][j1]+grid[i][j2];
         }
         
         if(dp[i][j1][j2] !=-1){
