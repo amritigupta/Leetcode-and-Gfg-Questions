@@ -4,34 +4,31 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution
 {
 int f(int wt[], int val[], int ind, int W, vector<vector<int>>& dp){
 
     if(ind == 0){
-        if(wt[0] <=W) return val[0];
-        else return 0;
+        if(wt[0] <=W) return val[0]; //take that element
+        else return 0; //cant take element at 0
     }
     
     if(dp[ind][W]!=-1)
         return dp[ind][W];
         
-    int notTaken = 0 + f(wt,val,ind-1,W,dp);
+    int notTaken = 0 + f(wt,val,ind-1,W,dp); //dont take the element at ith
     
     int taken = INT_MIN;
-    if(wt[ind] <= W)
+    
+    if(wt[ind] <= W) //take the element at ith
         taken = val[ind] + f(wt,val,ind-1,W-wt[ind],dp);
         
-    return dp[ind][W] = max(notTaken,taken);
-}
+    return dp[ind][W] = max(notTaken,taken); //find max profit
+ }
 
-    public:
-    int dp[1001][1001];
-    
-    Solution()
-    {
-        memset(dp,-1,sizeof(dp));
-    }
+public:
+
     
     int knapSack(int W, int wt[], int val[], int n) 
     { 
