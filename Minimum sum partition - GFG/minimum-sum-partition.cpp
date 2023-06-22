@@ -38,7 +38,7 @@ class Solution{
 	    
 	    
 	    int mini = 1e9;
-	    for(int s1=0; s1<=sum/2; s1++){
+	    for(int s1=0; s1<=sum; s1++){
 	        if(dp[n-1][s1] == true){
 	            mini = min(mini, abs( (sum-s1) - s1));
 	        }
