@@ -20,8 +20,10 @@ class Solution {
             take = 1+ f(ind, amount-coins[ind],coins, dp);
         }
         int take2 = INT_MAX;
-        
-        return dp[ind][amount] = min(nottake, take);
+        if(coins[ind]<=amount){
+            take2 = 1+ f(ind-1 , amount-coins[ind],coins, dp);
+        }        
+        return dp[ind][amount] = min(nottake, min(take, take2));
     }
 public:
     int coinChange(vector<int>& coins, int amount) {
