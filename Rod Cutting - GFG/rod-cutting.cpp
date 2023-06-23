@@ -9,7 +9,6 @@ using namespace std;
 // User function Template for C++
 
 class Solution{
-    
   public:
   int f (int ind, int n, int price[], vector<vector<int>> &dp){
 	if (ind==0){
@@ -19,6 +18,7 @@ class Solution{
 		return dp[ind][n];
 	}
 	int nottake = 0 + f(ind-1, n, price,dp);
+	
 	int take = INT_MIN;
 	int rodlength= ind+1;
 	if (rodlength<=n){
@@ -34,6 +34,7 @@ class Solution{
 	return f(n-1, n, price, dp);
     }
 };
+
 
 //{ Driver Code Starts.
 
