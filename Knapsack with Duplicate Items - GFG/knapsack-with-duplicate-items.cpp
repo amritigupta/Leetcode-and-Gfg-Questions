@@ -8,25 +8,28 @@ using namespace std;
 // User function Template for C++
 
 class Solution{
-    int f (int ind, int W, int val[], int wt[],  vector<vector<int>> &dp){
-        if (ind==0){
-            return ((int)(W/wt[0])*val[0]);
+    int f(int ind, int W, int val[], int wt[], vector<vector<int>> &dp){
+
+        if(ind==0){
+            return (W/wt[ind])*val[ind];
         }
+        
         if(dp[ind][W]!=-1){
             return dp[ind][W];
         }
+        
         int nottake = f(ind-1, W, val, wt, dp);
         int take = 0;
-        if (wt[ind]<=W){
-            take = val[ind]+ f(ind, W-wt[ind], val, wt,dp);
+        if(wt[ind]<=W){
+            take = val[ind]+f(ind, W-wt[ind], val, wt, dp) ;
         }
-        return dp[ind][W]=max(take, nottake);
+        
+        return  dp[ind][W]=max(take, nottake);
     }
 public:
     int knapSack(int N, int W, int val[], int wt[])
     {
-        // code here
-        vector<vector<int>> dp(N, vector<int>(W+1,-1));
+        vector<vector<int>> dp(N+1, vector<int>(W+1,-1));
         return f(N-1, W, val, wt, dp);
     }
 };
