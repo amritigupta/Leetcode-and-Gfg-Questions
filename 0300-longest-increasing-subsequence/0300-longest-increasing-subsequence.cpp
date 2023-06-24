@@ -13,6 +13,8 @@ class Solution {
         
         int take = 0;
         
+        //why not if(ind==0)
+        // cuz first element can be ANY index not just 0th
         if ( prevind == -1 || nums[ind] > nums[prevind]) 
             //prevind is now changed to ind
             take = 1 + f(ind+1, ind, nums, n,dp);
