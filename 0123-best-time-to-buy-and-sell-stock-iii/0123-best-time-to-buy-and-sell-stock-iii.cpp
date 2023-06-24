@@ -2,14 +2,14 @@ class Solution {
 
 public:
 ///// MEMOIZATION
-    int f(int ind,int buy, int cap ,int n ,vector<int>&v,vector<vector<vector<int>>> &dp){
-    int notpick,pick;
+int f(int ind,int buy, int cap ,int n ,vector<int>&v,vector<vector<vector<int>>> &dp){
+    int notpick , pick;
     if(ind==n) return 0;
-    if(cap == 0) return 0;
+    if(cap == 0) return 0; //additional base case
     if(dp[ind][buy][cap] != -1 ) return dp[ind][buy][cap];
     if(buy){
         notpick = 0 + f(ind+1,1,cap,n,v,dp);
-        pick = v[ind] + f(ind+1,0,cap-1,n,v,dp);
+        pick = v[ind] + f(ind+1,0,cap-1,n,v,dp); //reduce cap if u sell (u can sell atmost 2 )
     }
     else{
         notpick = 0 + f(ind+1,0,cap,n,v,dp);
