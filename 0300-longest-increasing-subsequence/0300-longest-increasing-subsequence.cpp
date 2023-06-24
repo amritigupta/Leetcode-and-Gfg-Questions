@@ -8,12 +8,14 @@ class Solution {
             return dp[ind][prevind+1];
         }
             
-            
+        //prevind remains same
         int nottake = f(ind+1, prevind, nums , n,dp);
         
         int take = 0;
         
-        if ( prevind == -1 || nums[ind] > nums[prevind]) take = 1 + f(ind+1, ind, nums, n,dp);
+        if ( prevind == -1 || nums[ind] > nums[prevind]) 
+            //prevind is now changed to ind
+            take = 1 + f(ind+1, ind, nums, n,dp);
         
         return dp[ind][prevind+1]= max(take, nottake);
         
@@ -25,7 +27,6 @@ public:
         vector<vector<int>> dp(n, vector<int> (n+1,-1));
         return f(0,-1,nums,n,dp);
     }
-    
     
     
 //     // TABULATION
