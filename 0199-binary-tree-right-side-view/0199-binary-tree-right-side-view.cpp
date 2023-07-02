@@ -9,28 +9,32 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
-
 class Solution {
-    // RECURSIVE T=O(N) SC=O(H)
-    // ITERATIVE T=O(N) SC=O(N)
-    
-    
-    // REVERSE PREORDER (ROOT RIGHT LEFT)
-    
 public:
     vector<int> rightSideView(TreeNode* root) {
-        vector<int> ans;
-        helper(root,0,ans);
-        return ans;
-    }
-    
-    void helper(TreeNode* root , int level, vector<int> & ans){
-        if (root == NULL) return;
+        if (!root) {
+            return {};
+        }
         
-        if (level == ans.size()){ans.push_back(root->val);}
-        
-        helper(root->right, level+1, ans);
-        helper(root->left, level+1, ans);
+        vector<int> view;
+        queue<TreeNode*> todo;
+        todo.push(root);
+        while (!todo.empty()) {
+            int n = todo.size();
+            for (int i = 0; i < n; i++) {
+                TreeNode* node = todo.front();
+                todo.pop();
+                if (i == n - 1) {
+                    view.push_back(node -> val);
+                }
+                if (node -> left) {
+                    todo.push(node -> left);
+                }
+                if (node -> right) {
+                    todo.push(node -> right);
+                }
+            }
+        }
+        return view;
     }
 };
