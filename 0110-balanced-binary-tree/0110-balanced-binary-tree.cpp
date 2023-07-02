@@ -11,15 +11,20 @@
  */
 class Solution {
     int findheight(TreeNode* root){
-        if (root == NULL) return 0;
+        if(root==NULL) return 0;
         
-        return 1+max(findheight(root->left), findheight(root->right));
+        int lh = findheight(root->left);
+        int rh = findheight(root->right);
+        
+        return 1+max(lh,rh);
     }
+
 public:
     bool isBalanced(TreeNode* root) {
         if (root == NULL){
             return true;
         }
+        
         int lh = findheight(root->left);
         int rh = findheight(root->right);
         
@@ -27,9 +32,10 @@ public:
             return false;
         }
         
-        if (!isBalanced(root->left) || !isBalanced(root->right)){
+        if (!isBalanced(root->left) || !isBalanced(root->right)){ //if either left or right is unbalanced
             return false;
         }
+        
         return true;
     }
 };
