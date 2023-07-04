@@ -17,7 +17,7 @@ public:
                     tmp.push_back(s + candidate);
                 }
             }
-            result.swap(tmp);
+            result=tmp;
         }
         return result;
     }
