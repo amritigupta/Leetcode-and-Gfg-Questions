@@ -1,6 +1,6 @@
 class Solution {
 public:
-    const vector<string> pad = {
+    vector<string> pad = {
         "", "", "abc", "def", "ghi", "jkl",
         "mno", "pqrs", "tuv", "wxyz"
     };
