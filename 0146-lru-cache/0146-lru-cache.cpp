@@ -1,5 +1,6 @@
 class LRUCache {
 public:
+    
     class node{
         public:
         int key;
@@ -12,6 +13,7 @@ public:
         }
     };
     
+    //initialize head & tail as -1,-1
    node * head = new node(-1, -1);
    node * tail = new node(-1, -1);
    
@@ -55,16 +57,18 @@ public:
     
     void put(int key, int value) {
        if(mp.find(key) != mp.end()){
-         node* tempnode = mp[key];
+           node* tempnode = mp[key];
            mp.erase(key);
            deleteNode(tempnode);
        } 
         
+        //delete last used one
         if(mp.size()==cap){
             mp.erase(tail->prev->key);
             deleteNode(tail->prev);
         }
         
+        //insert right after head
         addNode(new node(key,value));
         mp[key] = head->next;
     }
