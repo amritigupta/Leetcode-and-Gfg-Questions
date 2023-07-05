@@ -1,6 +1,7 @@
 class MyHashMap {
 	vector<vector<pair<int, int>>> map;
-	const int size = 10000;
+	const int size = 10000; //size of bucket array
+    
 public:
 	/** Initialize your data structure here. */
 	MyHashMap() {
@@ -9,23 +10,25 @@ public:
 
 	/** value will always be non-negative. */
 	void put(int key, int value) {
-		int index = key % size;
+		int index = key % size; //hash function
         vector<pair<int, int>> &row = map[index];
         for(auto iter = row.begin(); iter != row.end(); iter++)
         {
             if(iter->first == key)
             {
-                iter->second = value;
+                iter->second = value; //change value
                 return;
             }
         }
-		row.push_back(make_pair(key, value));
+		row.push_back(make_pair(key, value)); //add to hash[index]
 	}
+    
 
 	/** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
 	int get(int key) {
-		int index = key % size;
-        vector<pair<int, int>> &row = map[index];
+		int index = key % size; //hash function
+        vector<pair<int, int>> &row = map[index]; 
+        
 		for (auto iter = row.begin(); iter != row.end(); iter++)
 		{
 			if (iter->first == key)
