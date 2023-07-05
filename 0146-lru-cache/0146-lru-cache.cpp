@@ -26,6 +26,8 @@ public:
        tail->prev = head;
     }
     
+    
+    //u always add right after head
     void addNode(node* newnode){
         node*temp = head->next;
         newnode->next = temp;
@@ -34,6 +36,8 @@ public:
         temp->prev = newnode;
     }
     
+    
+   //deletion can be done at any pos
     void deleteNode(node* delnode){
         node* deleteprev = delnode->prev;
         node* deletenext = delnode->next;
@@ -42,6 +46,7 @@ public:
     }
     
     int get(int key) {
+        
         if(mp.find(key) != mp.end()){
             node* tempnode = mp[key];
             int ans = tempnode->val;
