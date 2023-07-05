@@ -33,13 +33,14 @@ public:
         ListNode* slow = head;
         ListNode* fast = head;
         
+        //find middle
         while(fast->next!=NULL && fast->next->next!=NULL) 
         {
             slow = slow->next;
             fast = fast->next->next;
         }
         
-        ListNode* rev = reverse(slow->next);  
+        ListNode* rev = reverse(slow->next); //head of reversed linked list 
         ListNode* cur = head;  
         
         while(rev!=NULL) //after reversing the second part we compare all the elements
