@@ -5,6 +5,10 @@ class Solution {
         for(int i=0; i<arr.size(); i++){
             if(mid>=arr[i]){
                 total++;
+                        if(total==k){
+                subarray++;
+                total=0;
+            }
             }
             else{
                 if(total>=k){
@@ -12,10 +16,7 @@ class Solution {
                 }
                 total=0;
             }
-            if(total==k){
-                subarray++;
-                total=0;
-            }
+
         }
        
         if(subarray<m) return false;
