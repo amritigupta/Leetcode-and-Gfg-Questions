@@ -1,40 +1,29 @@
 class Solution {
-    /* int f (int i, int j, int n, vector<vector<int>>& triangle, vector<vector<int>> &dp){
-        
-        if (i==n-1){
-            return dp[n-1][j]= triangle[n-1][j];
+    int f(int i, int j, int m, int n, vector<vector<int>>& triangle, vector<vector<int>>& dp ){
+        if(i==m-1){ //on last row
+            return triangle[i][j];
+        }
+        if(i>=m || j>i+1){
+            return 1e5;
         }
         
-        if (dp[i][j]!=-1){ return dp[i][j];}
-        int d = triangle[i][j]+ f(i+1,j,n,triangle,dp);
+        if(dp[i][j]!=-1){
+            return dp[i][j];
+        }
         
-        int dg = triangle[i][j]+f(i+1,j+1,n,triangle,dp);
+
+           int one = triangle[i][j] + f(i+1, j, m, n, triangle, dp);
+            int two = triangle[i][j] + f(i+1, j+1, m , n , triangle, dp);
+
         
-        return dp[i][j]= min(d,dg);
+        return dp[i][j] = min(one, two);
     }
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
-        int n = triangle.size();
-        vector<vector<int>> dp(n, vector<int> (n,-1));
-        return f(0, 0, n, triangle, dp);
-    } */
- public:    
-    int minimumTotal(vector<vector<int>>& triangle) {
-        int n = triangle.size();
-        int dp[n][n];
-        for (int j=0; j<n; j++){
-            dp[n-1][j]=triangle[n-1][j];
-        }
+        int m = triangle.size();
+        int n = triangle[m-1].size(); //last row size
+         vector<vector<int>>dp (m+1, vector<int> (n+1,-1));
         
-        for (int i=n-2; i>=0; i--){
-            for (int j=i; j>=0; j--){
-                int d= triangle[i][j]+ dp[i+1][j];
-                int dg = triangle[i][j]+ dp[i+1][j+1];
-                
-                dp[i][j]= min(d,dg);
-            }
-        }
-        
-        return dp[0][0];
+        return f(0,0,m,n,triangle, dp);     
     }
 };
