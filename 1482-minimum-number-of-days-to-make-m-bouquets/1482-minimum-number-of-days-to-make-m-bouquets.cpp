@@ -27,7 +27,6 @@ public:
         /* if m*k < total no. of flows then we can't make m bouquets */
         if(((long long)m*(long long)k) > arr.size()) return -1;
         
-        /* maximum days we can take as maximum element in the array after that all flows will get bloom  */
         int l = *min_element(arr.begin(), arr.end()), r = *max_element(arr.begin(), arr.end());
         int ans = -1;
         while(l <= r){
