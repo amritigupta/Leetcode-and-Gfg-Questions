@@ -10,6 +10,7 @@
  * };
  */
 class Solution {
+    // logic :- for every node, u have 2 options (whether to take it and its 4 grandchildren OR to only take its two children)
 public:
     int tryRob(TreeNode* root, int& l, int& r) {
         if (!root)
