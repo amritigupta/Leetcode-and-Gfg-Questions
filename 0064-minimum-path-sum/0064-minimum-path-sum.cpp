@@ -1,7 +1,7 @@
 class Solution {
     int f(int i, int j, vector<vector<int>>& grid, vector<vector<int>>& dp ){
         if(i<0 || j<0){
-            return INT_MAX;
+            return 1e5;
         }
         if(i==0 && j==0){
             return grid[i][j];
@@ -9,15 +9,11 @@ class Solution {
         
         if(dp[i][j]!=-1){return dp[i][j];}
         
-        int up=INT_MAX;
-        int left=INT_MAX;
+
+           int up = grid[i][j]+ f(i-1, j, grid, dp);
+  
+           int left = grid[i][j] + f(i,j-1, grid, dp);
         
-        if(i>0){
-            up = grid[i][j]+ f(i-1, j, grid, dp);
-        }
-        if(j>0){
-            left = grid[i][j] + f(i,j-1, grid, dp);
-        }
         
         return dp[i][j]= min(up,left);
      }
