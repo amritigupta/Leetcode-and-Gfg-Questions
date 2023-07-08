@@ -1,27 +1,28 @@
 class Solution {
-    
-    int f(int ind, vector<int> &dp , vector<int> &a){
-        if(ind < 0 ){
+    int help(int ind, vector<int> &nums, vector<int> &dp ){
+        if(ind>nums.size()-1){
             return 0;
         }
-        if(ind==0){
-            return a[ind];
+        if(ind==nums.size()-1){
+            return nums[nums.size()-1];
         }
-        
         
         if(dp[ind]!=-1){
             return dp[ind];
         }
         
-        int pick = a[ind] + f(ind-2, dp, a);
-        int notpick = 0 + f(ind-1, dp, a);
+        //u rob this index
+        int ans1 = nums[ind] + help(ind+2, nums, dp) ;
+        //u dont rob this index
+        int ans2 = help(ind+1, nums, dp);
         
-        return dp[ind] = max(pick, notpick);
+        return dp[ind]=max(ans1,ans2);
     }
 public:
     int rob(vector<int>& nums) {
         int n = nums.size();
         vector<int> dp(n+1, -1);
-        return f(n-1, dp, nums);
+        int ans = help(0, nums, dp);
+        return ans;
     }
 };
