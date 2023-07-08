@@ -1,43 +1,44 @@
 class Solution {
-public:
-    /* we want to check can we make m bouquets at a day of mid or not */
-    bool check(vector<int> &arr, int mid, int m, int k){
-        int subarray = 0;
-        int total = 0;
-        for(int i = 0;i<arr.size();i++){
-            if(arr[i] <= mid){
+    bool ispos(int mid, vector<int>& arr, int m, int k){
+        int subarray=0;
+        int total=0;
+        for(int i=0; i<arr.size(); i++){
+            if(mid>=arr[i]){
                 total++;
             }
             else{
-                if(total == k){
+                if(total>=k){
                     subarray++;
                 }
-                total = 0;
+                total=0;
             }
-            if(total == k){
+            if(total==k){
                 subarray++;
-                total = 0;
+                total=0;
             }
         }
-        if(subarray >= m) return true;
-        return false;
+       
+        if(subarray<m) return false;
+        else return true;
     }
-    
+public:
     int minDays(vector<int>& arr, int m, int k) {
-        /* if m*k < total no. of flows then we can't make m bouquets */
-        if(((long long)m*(long long)k) > arr.size()) return -1;
-        
-        int l = *min_element(arr.begin(), arr.end()), r = *max_element(arr.begin(), arr.end());
+
+        int l = *min_element(arr.begin(),arr.end()) ;
+        int r = *max_element(arr.begin(),arr.end()) ;
         int ans = -1;
-        while(l <= r){
-            int mid = l + (r-l)/2;
-            if(check(arr, mid, m, k)){
+        
+        while(l<=r){
+            int mid = l+(r-l)/2;
+            if (ispos(mid,arr,m,k)){
                 ans = mid;
-                r = mid-1;
+                r=mid-1;
             }
-            else l = mid+1;
+            else{
+                l=mid+1;
+            }
         }
+        
         return ans;
     }
-	
 };
