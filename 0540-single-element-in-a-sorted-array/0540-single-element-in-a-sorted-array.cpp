@@ -1,19 +1,40 @@
 class Solution {
 public:
     int singleNonDuplicate(vector<int>& nums) {
-        int n = nums.size(), left = 0, right = n - 1;
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (mid % 2 == 0) {
-                if (nums[mid] == nums[mid-1]) right = mid - 2;
-                else if (nums[mid] == nums[mid+1]) left = mid + 2;
-                else return nums[mid];
-            }
-            else {
-                if (nums[mid] == nums[mid-1]) left = mid + 1;
-                else if (nums[mid] == nums[mid+1]) right = mid - 1;
-            }
+        int e = nums.size();
+        // Checking the boundary first
+        if(e == 1){
+            return nums[0];
         }
-        return nums[left];
+        
+        if(nums[0] != nums[1]){
+            return nums[0];
+        }
+        
+        if(nums[e-1] != nums[e-2]){
+            return nums[e-1];
+        }
+        
+        int s = 0;
+        int mid = s + (e - s) / 2;
+        int ans = -1;
+        
+        while(s <= e){
+            if(nums[mid] != nums[mid-1] && nums[mid] != nums[mid+1]){
+                ans = nums[mid];
+                break;
+            }
+            // check if it is left half or right half
+            else if((nums[mid] == nums[mid+1] && mid % 2 == 0) || (mid % 2 == 1 && nums[mid] == nums[mid-1])){
+                s = mid + 1;
+            }
+            else{
+                e = mid - 1;
+            }
+            
+            mid = s + (e - s) / 2;
+        }
+        
+        return ans;
     }
 };
