@@ -7,10 +7,10 @@ public:
         long first = 1, last = x;
         while (first <= last) {
             long mid = first + (last - first) / 2;
-            // mid * mid == x gives runtime error
+          
             if (mid*mid == x)
                 return mid;
-            else if (mid > x / mid) {
+            else if (mid*mid > x ) {
                 last = mid - 1;
             }
             else {
