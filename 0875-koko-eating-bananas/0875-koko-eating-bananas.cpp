@@ -24,7 +24,7 @@ class Solution {
             mx = max(mx, piles[i]);
         }
         
-        int l = sum / H, r = mx , ans;
+        int l = 1, r = mx , ans;
         
         while(l < r)
         {
