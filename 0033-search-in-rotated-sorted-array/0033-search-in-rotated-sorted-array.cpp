@@ -6,7 +6,6 @@ int search(vector<int>& arr, int k) {
     while (low <= high) {
         int mid = (low + high) / 2;
 
-        //if mid points the target
         if (arr[mid] == k) return mid;
 
         //if left part is sorted:
