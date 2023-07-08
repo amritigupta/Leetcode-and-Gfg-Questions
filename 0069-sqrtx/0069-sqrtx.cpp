@@ -18,6 +18,10 @@ public:
             }
         }
         
+        
+        //return last as loop breaks when start>end and we need to submit rounded down nearest integer
+        //if rounded up return first
+        
         int ans = last;
         return ans;
     }
