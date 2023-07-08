@@ -1,7 +1,7 @@
 class Solution {
     int f(int i, int j, vector<vector<int>>& grid, vector<vector<int>>& dp ){
         if(i<0 || j<0){
-            return 0;
+            return INT_MAX;
         }
         if(i==0 && j==0){
             return grid[i][j];
