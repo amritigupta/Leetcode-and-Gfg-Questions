@@ -1,36 +1,23 @@
 class Solution {
 public:
-    bool ispos(vector<int>& piles, int h,int k){
-        int time=0;
-        for(int i=0;i<piles.size();i++){
-            time+=piles[i]/k;
-            if(piles[i]%k>0)
-                time+=1;
-            if(time > h)
-                return false;
+    long long timetaken(vector<int>& piles, int k){
+        long long ans=0;
+        for (int i=0; i<piles.size(); i++){
+            ans+= (piles[i]/k)+(piles[i]%k!=0);
         }
-        if(h < time)return false;
-        return true;
+        return ans;
     }
-    
     int minEatingSpeed(vector<int>& piles, int h) {
-        int maxi = -1;
-        for(auto i:piles){
-            maxi = max(i,maxi);
-        }
-        int l=1,r = maxi,mid;
-        int k = -1;
-        while(l <= r){
-            mid = l + (r-l)/2;
-            if(ispos(piles,h,mid)){
-                k=mid;
-                r = mid-1;
+        int low=1; int high= *max_element(piles.begin(),piles.end());
+        int ans=0;
+        while (low <= high){
+            int mid= low+ (high-low)/2;
+            if (timetaken(piles,mid)<=h){
+                ans= mid;
+                high= mid-1;
             }
-            
-            else{
-                l=mid+1;
-            }
+            else low= mid+1;
         }
-        return k;
+        return ans;
     }
 };
