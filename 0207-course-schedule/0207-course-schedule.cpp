@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool dfs(int node, vector<int> adj[], vector<int>& vis, vector <int> pathvis) {
+    bool dfs(int node, vector<int> adj[], vector<int>& vis, vector <int>& pathvis) {
         vis[node] = 1;
         pathvis[node]=1;
         for (auto it: adj[node]) {
