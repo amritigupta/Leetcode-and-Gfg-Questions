@@ -1,46 +1,50 @@
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        int m=grid.size();
-        int n=grid[0].size();
-        int oranges=0;//contains total oranges present 
-        int count=0;//contains count of rotten oranges
-        int ans=0;
-        queue<pair<int,int>> rotten;//used for bfs
+        int n = grid.size();
+        int m = grid[0].size();
         
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]!=0){oranges++;}//counting oranges
-                if(grid[i][j]==2){rotten.push({i,j});}//storing indexes of rotten oranges for BFS.
-            }
-        }          
-        
-        int dx[4]={0,0,1,-1};//used for checking nearby oranges
-        int dy[4]={1,-1,0,0};
-
-        while(!rotten.empty()){
-            int k=rotten.size();
-            count+=k;//increase count by number of rotten oranges
-            
-            while(k--){//checking nearby oranges of rotten oranges
-                int x=rotten.front().first;
-                int y=rotten.front().second;
-                rotten.pop();//removing that index from queue after checking
-                for(int i=0;i<4;i++){
-                    int newx=x+dx[i];
-                    int newy=y+dy[i];
-                    if(newx<0 || newx>=m || newy<0 || newy>=n || grid[newx][newy]!=1){continue;}//if nearby orange doesn't exist or is rotten already
-                    grid[newx][newy]=2;//mark orange rotten
-                    rotten.push({newx,newy});//insert it's index in queue
+        int count=0;
+        queue< pair<pair<int,int>,int> > q;
+        int dr[]={-1,1,0,0};
+        int dc[]={0,0,1,-1};
+        int oranges=0;
+   
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(grid[i][j]!=0){
+                    oranges++;
+                }
+                if(grid[i][j]==2){
+                    count++;
+                    q.push({{i,j},0});
                 }
             }
-            if(!rotten.empty()){
-                ans++;//increase the time by 1
-            }
-        }  
-        if(oranges==count){//if all oranges can get rotten
-            return ans;
         }
-        return -1;//if some oranges can't get rotten
+        
+        int maxi=0;
+        while(!q.empty()){
+            int r = q.front().first.first;
+            int c = q.front().first.second;
+            int time = q.front().second;
+            maxi=max(time,maxi);
+            q.pop();
+            
+            for(int k=0; k<4; k++){
+                int newr = r+dr[k];
+                int newc = c+dc[k];
+                
+                if(newr>=0 && newr<n && newc>=0 && newc<m && grid[newr][newc]==1 ){
+                    count++;
+                    grid[newr][newc]=2;
+                    q.push({{newr,newc},time+1});
+                }
+            }
+        }
+        
+        if(count==oranges){
+            return maxi;
+        }
+        else return -1;
     }
 };
