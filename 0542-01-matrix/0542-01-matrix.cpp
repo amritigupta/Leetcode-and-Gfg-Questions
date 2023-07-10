@@ -4,12 +4,12 @@ public:
         int n = mat.size();
         int m = mat[0].size();
        
-        
         int drow[]={0,-1,0,1};
         int dcol[]={-1,0,1,0};
         
         vector<vector<int>> dist(n, vector<int> (m,1e5));
         queue<pair< pair<int,int> , int >> q;
+        
         for (int i=0; i<n; i++){
             for(int j=0; j<m; j++){
                 if(mat[i][j]==0){
@@ -18,52 +18,6 @@ public:
                 }
             }
         }
-        
-        
-        // BRUTE FORCE
-//         // ROUND 1
-//         int flag=0;
-//         for (int i=0; i<n; i++){
-//             for(int j=0; j<m; j++){
-//                 if(mat[i][j]==1){
-//                     int dis=1e5;
-//                     for(int k=0; k<4; k++){
-//                         int nrow = i + drow[k];
-//                         int ncol= j+ dcol[k];
-//                         if(nrow>=0 && nrow<n && ncol>=0 && ncol<m) dis = min(dis, dist[nrow][ncol]+1);
-//                     }
-//                     dist[i][j]=dis;
-//                     if(dis==1e5){
-//                         flag=1;
-//                     }
-//                 }
-//             }
-//         }
-        
-        
-//         //FURTHER ROUNDS 
-//         while(flag!=0){
-//         for (int i=0; i<n; i++){
-//             for(int j=0; j<m; j++){
-//                 if(mat[i][j]==1e5){
-//                     int dis=1e5;
-                    
-//                     for(int k=0; k<4; k++){
-//                         int nrow = i + drow[k];
-//                         int ncol= j+ dcol[k];
-//                         if(nrow>=0 && nrow<n && ncol>=0 && ncol<m)  dis = min(dis, dist[nrow][ncol] +1 );
-//                     }
-//                     dist[i][j]=dis;
-//                     if(dis==1e5){
-//                         flag=1;
-//                     }
-//                 }
-//             }
-//            }
-//         }
-        
-
-       //BFS
         
         while(!q.empty()){
             int row = q.front().first.first;
