@@ -1,48 +1,48 @@
 class Solution {
 public:
-    
-
-    bool isValid(int row, int col, int n, int m) {
-        return row >= 0 && row < n && col >= 0 && col < m;
-    }
-public:
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
-	
-        if(grid[0][0] == 1) return -1;
+        // no need of pq here
+        // priority_queue < pair<int,int> , vector<pair<int,int>> , greater <pair<int,int> >> pq;
         
+        queue<pair< int, pair<int,int>>> q;
         int n = grid.size();
         int m = grid[0].size();
-		
-        vector<vector<int> > distance(n, vector<int> (m, 1e9));
-        distance[0][0] = 0;
         
-        queue<pair<int, pair<int, int> > > q;
-        q.push({1,{0, 0}});
+        vector<vector<int>> dist(n, vector<int>(m, 1e9));
         
-        int delrow[] = {-1, -1, 0, 1, 1, 1, 0, -1};
-        int delcol[] = {0, 1, 1, 1, 0, -1, -1, -1};
+        if(grid[0][0]==1){
+            return -1;
+        }
+        else{
+            if(m==1 && n==1){
+                return 1;
+            }
+        }
         
-        while(!q.empty()) {
-            auto it = q.front();
-            int dis = it.first;
-            int row = it.second.first;
-            int col = it.second.second;
+        dist[0][0]=1;
+        q.push({1, {0,0}});
+        vector<pair<int,int>> dir ={ {0,1} , {1,0}, {-1, 0}, {0, -1}, {1,1}, {-1,-1}, {-1,1}, {1,-1}};
+        
+        while(!q.empty()){
             
+            int dis = q.front().first;
+            int r = q.front().second.first;
+            int c = q.front().second.second;
             q.pop();
             
-            if(row == n - 1 && col == m - 1) return dis;
-            
-            for(int k = 0; k < 8; k++) {
-                int nrow = row + delrow[k];
-                int ncol = col + delcol[k];
+            for(int i=0; i<8; i++){
+                int newr = r+dir[i].first;
+                int newc = c+dir[i].second;
                 
-                if(isValid(nrow, ncol, n, m) && grid[nrow][ncol] == 0 && (dis + 1 < distance[nrow][ncol])) {
-                    distance[nrow][ncol] = dis + 1;
-                    q.push({dis + 1, {nrow, ncol}});
+                if(newr>=0 && newr<n && newc>=0 && newc<m && grid[newr][newc]!=1 && dis+1 < dist[newr][newc]){
+                     dist[newr][newc] = 1+dis;
+                     if(newr == n-1 && newc == m-1){
+                         return dis+1;
+                     }
+                     q.push({1+dis, {newr, newc}});
                 }
             }
         }
-   
         return -1;
     }
 };
