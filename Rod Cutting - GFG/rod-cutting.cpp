@@ -9,32 +9,33 @@ using namespace std;
 // User function Template for C++
 
 class Solution{
+    int f (int ind, int price[], int n,  vector<vector<int>> &dp){
+        
+        if(ind==0){
+            if(n%(ind+1)==0){
+                return (n/(ind+1))*price[0];
+            }
+            else{
+                return 0;
+            }
+        }
+        
+        if(dp[ind][n]!=-1) return dp[ind][n];
+        
+        int nottake = f(ind-1, price, n, dp);
+        int take = INT_MIN;
+        if(ind+1<=n){
+            take = price[ind]+f(ind, price, n-(ind+1), dp);
+        }
+        
+        return dp[ind][n] = max(take,nottake);
+    }
   public:
-  int f (int ind, int n, int price[], vector<vector<int>> &dp){
-	if (ind==0){
-		return n*price[0];
-	}
-	if (dp[ind][n]!=-1){
-		return dp[ind][n];
-	}
-	int nottake = 0 + f(ind-1, n, price,dp);
-	
-	int take = INT_MIN;
-	int rodlength= ind+1;
-	if (rodlength<=n){
-		take = price[ind]+ f(ind, n-rodlength, price,dp);
-	}
-
-	return dp[ind][n]=max(take, nottake);
-}
-
     int cutRod(int price[], int n) {
-        //code here
-    vector<vector<int>> dp(n, vector<int>(n+1,-1));
-	return f(n-1, n, price, dp);
+        vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
+        return f(n-1, price, n, dp);
     }
 };
-
 
 //{ Driver Code Starts.
 
