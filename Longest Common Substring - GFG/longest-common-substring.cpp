@@ -3,48 +3,36 @@
 using namespace std;
 
 // } Driver Code Ends
-
-
-
 class Solution{
     public:
-    int t[1001][1001]; //declaring our cache
-    int maxi = 0; //taking a maxi variable for finding the longest size
-
-    int helper(string &S1, string &S2, int n, int m){
-        //if anyoun of them is empty then return 0, con substring can form with empty string
-        if(n == 0 || m == 0) return 0;
-        
-        //if subproblem is already calculated then return it
-        if(t[n][m] != -1) return t[n][m];
-        
-        if(S1[n-1] == S2[m-1]){
-            // if its common then we can take current element
-            t[n][m] = 1 + helper(S1, S2, n-1, m-1);
-            
-            //update out max size of LCS
-            maxi = max(maxi, t[n][m]);
-        }
-        else{
-            //if not matching then update the size of the string 0
-            t[n][m] = 0;
- 
-        }
-        helper(S1, S2, n-1, m); //traverse futher string
-        helper(S1, S2, n, m-1); //traverse futher string
-                     
-     
-        return t[n][m];
-    }
     
-    int longestCommonSubstr (string S1, string S2, int n, int m)
+    int longestCommonSubstr (string s1, string s2, int n, int m)
     {
-        memset(t, -1, sizeof(t));
-        helper(S1, S2, n, m);
-        return maxi; // This will be our answer
+        int maxi = 0;
+        vector<vector<int>> dp(n+1, vector<int>(m+1,0));
+        for(int i=0; i<=n; i++){
+            dp[i][0]=0;
+        }
+        for(int i=0; i<=m; i++){
+            dp[0][i]=0;
+        }
+        
+        for(int i=1; i<=n ; i++){
+            for(int j=1; j<=m; j++){
+        
+                if(s1[i-1]==s2[j-1]){
+                    dp[i][j]=1+dp[i-1][j-1];
+                    maxi = max(maxi, dp[i][j]);
+                }
+                else{
+                    dp[i][j]=0;
+                }
+            }
+        }
+        
+        return maxi;
     }
 };
-
 
 //{ Driver Code Starts.
 
