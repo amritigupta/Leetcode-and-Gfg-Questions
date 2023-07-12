@@ -7,10 +7,11 @@ using namespace std;
 // } Driver Code Ends
 //User function template for C++
 
+//User function template for C++
+
 class Solution {
   public:
 	void shortest_distance(vector<vector<int>>&matrix){
-	    // Code here
 	    int n = matrix.size();
 	    
 	    for (int i=0; i<n; i++){
