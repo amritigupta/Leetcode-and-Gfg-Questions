@@ -19,13 +19,7 @@ class Solution {
         if(coins[ind]<=amount){
             take = 1+ f(ind, amount-coins[ind],coins, dp);
         }
-        
-//         int take2 = INT_MAX;
-        
-//         if(coins[ind]<=amount){
-//             take2 = 1+ f(ind-1 , amount-coins[ind],coins, dp);
-//         }        
-        // return dp[ind][amount] = min(nottake, min(take, take2));
+
         
         return dp[ind][amount] = min(nottake, take);
     }
