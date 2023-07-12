@@ -3,6 +3,7 @@ class Solution {
         if(target==0){
             return true;
         }
+        
         if(ind==0){
             return nums[0]==target;
         }
@@ -13,12 +14,15 @@ class Solution {
         
         bool notpick = f(ind-1, target, nums, dp);
         bool pick = false;
+        
         if(nums[ind]<=target){
             pick = f(ind-1, target-nums[ind], nums, dp);
         }
         
         return dp[ind][target]= pick|notpick;
+        
     }
+    
 public:
     bool canPartition(vector<int>& nums) {
         int n = nums.size();
