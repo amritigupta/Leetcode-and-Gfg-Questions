@@ -1,56 +1,39 @@
 class Solution {
+private: 
+    bool solve(vector<vector<bool>> &dp, int i, int j, string &s){
+        if(i == j){
+            return dp[i][j] = true;
+        }
+        if(j-i == 1){
+            if(s[i] == s[j]){
+                return dp[i][j] = true;
+            }
+            else{
+                return dp[i][j] = false;
+            }
+        }
+        if(s[i] == s[j] && dp[i+1][j-1] == true){
+            return dp[i][j] = true;
+        } else {
+            return dp[i][j] = false;
+        }
+    }
 public:
     string longestPalindrome(string s) {
-        int n = s.length();
-        if(n==1) return s;
-        string ans = "";
-        // low and high points to the starting & ending indices of the pallindromic substrings 
-        int low, high;
-        // starting index of the max length pallindromic substring
-        int start_index;
-        // max length of the pallindromic substring
-        int max_length = 0;
-        for(int i = 1; i < n; i++)
-        {
-            // for odd length substrings
-            // choose i as epicenter and move left and right checking the string is pallindrome or not
-            low = i - 1;
-            high = i + 1;
-            while(low >= 0 && high < n && s[low] == s[high])
-            {
-                if(max_length < high - low + 1)
-                {
-                    max_length = high - low + 1;
-                    start_index = low;
+        int n = s.size();
+        int startIndex = 0; int maxlen = 0;
+        vector<vector<bool>> dp(n, vector<bool>(n, false));
+        for(int g=0; g<n; g++){
+            for(int i=0, j=g; j<n; i++, j++){
+                solve(dp, i, j, s);
+                if(dp[i][j] == true){
+                    if(j-i+1 > maxlen){
+                        startIndex = i;
+                        maxlen = j-i+1;
+                    }
                 }
-                --low;
-                ++high;
-            }
-            // for even length substrings
-            // choose i-1 and i as epicenters and move left and right checking the string is pallindrome or not
-            low = i - 1;
-            high = i;
-            while(low >= 0 && high < n && s[low] == s[high])
-            {
-                if(max_length < high - low + 1)
-                {
-                    max_length = high - low + 1;
-                    start_index = low;
-                }
-                --low;
-                ++high;
             }
         }
-        // if there is no pallindromic substring present of size >= 2 
-        if(max_length == 0)
-        {
-            ans += s[0];
-            return ans;
-        }
-        for(int i = start_index; i < start_index + max_length; i++)
-        {
-            ans += s[i];
-        }
-        return ans;
+        return s.substr(startIndex, maxlen);
     }
 };
