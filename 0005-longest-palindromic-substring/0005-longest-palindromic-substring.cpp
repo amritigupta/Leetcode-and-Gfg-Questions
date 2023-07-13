@@ -1,4 +1,3 @@
-
 class Solution {
 private: 
     bool solve(vector<vector<bool>> &dp, int i, int j, string &s){
@@ -38,4 +37,3 @@ public:
         return s.substr(startIndex, maxlen);
     }
 };
-
