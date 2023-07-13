@@ -20,22 +20,25 @@ public:
         }
 
         // Printing SCS
-
+       
         int i = str1.size();
         int j = str2.size();
         string ans = "";
+       
         while (i > 0 && j > 0) {
             if (str1[i-1] == str2[j-1]) {
                 ans += str1[i-1];
                 i--;
                 j--;
             }
-            else if (dp[i][j-1] >  dp[i-1][j]) { //column move left
+            else if (dp[i][j-1] >  dp[i-1][j]) { 
+                //column move left
                 ans += str2[j-1];
                 j--;
             }
             else {
-                ans += str1[i-1]; //row move up
+                //row move up
+                ans += str1[i-1]; 
                 i--;
             }
         }
@@ -47,9 +50,9 @@ public:
         while (j > 0) {
             ans += str2[j-1];
             j--;
-        };
+        }
        
-        reverse(begin(ans), end(ans));
+        reverse(ans.begin(), ans.end());
         return ans;
     }
 };
