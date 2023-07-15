@@ -9,6 +9,7 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
     
    while(j<n)
    {
+       
     while(l.size()>0 && l.back()<nums[j])
     {
         l.pop_back();
