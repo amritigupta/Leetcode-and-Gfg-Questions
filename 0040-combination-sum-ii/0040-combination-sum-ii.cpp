@@ -20,15 +20,12 @@ class Solution {
         }
     }
 public:
-    vector<vector<int>> combinationSum2(vector<int>& arr, int target) {
-        sort(arr.begin(), arr.end());
-        
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
         vector<vector<int>> ans;
         vector<int> ds;
-        
-        int n = arr.size();
-        f(0,target,arr,ans,ds,n);
-        
+        int n = candidates.size();
+        f(0, target, candidates, ans, ds, n);
         return ans;
     }
 };
