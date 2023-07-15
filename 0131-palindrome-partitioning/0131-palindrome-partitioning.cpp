@@ -1,0 +1,39 @@
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> ans;
+        vector<string> ds;
+        func(0,s,ans,ds);
+        return ans;
+        
+    }
+    
+    void func(int index, string s, vector<vector<string>> &ans, vector<string> &ds){
+        if(index == s.size()){
+            ans.push_back(ds);
+            return;
+        }
+        
+        for(int i=index; i<s.size(); i++){
+            if(isPalindrome(index, i, s)){
+                //store substr from index to i index
+                ds.push_back(s.substr(index, i-index+1));
+                func(i+1,s,ans,ds);
+                ds.pop_back();
+            }
+        }
+    }
+    
+    bool isPalindrome(int start, int end, string s){
+        
+        while(start<=end){
+            if(s[start]!=s[end]){
+                return false;
+            }
+            start++;
+            end--;
+        }
+        
+        return true;
+    }
+};
