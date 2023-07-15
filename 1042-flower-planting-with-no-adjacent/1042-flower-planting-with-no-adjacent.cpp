@@ -3,8 +3,8 @@ class Solution {
 public:
     bool valid(unordered_map<int,vector<int>> &g,int node,int whichoffourcolors,vector<int> &color){
         
-        for(auto &child:g[node]){
-            if(color[child]==whichoffourcolors) return 0;
+        for(auto &adjnode:g[node]){
+            if(color[adjnode]==whichoffourcolors) return 0;
         }
         return 1;
     }
