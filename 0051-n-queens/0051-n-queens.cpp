@@ -4,6 +4,7 @@ class Solution {
         int duprow = row;
         int dupcol = col;
         
+        // check left diagnol 
         while(row>=0 && col>=0){
             if(board[row][col]=='Q') return false;
             row--;
@@ -13,11 +14,15 @@ class Solution {
         col = dupcol;
         row = duprow;
         
+        
+        // check the left row 
         while(col>=0){
             if(board[row][col]=='Q') return false;
             col--;
         }
         
+        
+        // check the right diagnol
         row = duprow;
         col = dupcol;
         while(row<n && col>=0){
@@ -25,6 +30,7 @@ class Solution {
              row++;
              col--;
         }
+        
         
         return true;
     }
@@ -43,17 +49,19 @@ class Solution {
             }
         }
     }
+    
 public:
     vector<vector<string>> solveNQueens(int n) {
         vector<vector<string>> ans;
         vector<string> board(n);
         string s(n, '.');
+        
+        //fill board with dots
         for(int i=0; i<n; i++){
             board[i]=s;
         }
         
         solve(0,board,ans,n);
-        
         return ans;
     }
 };
