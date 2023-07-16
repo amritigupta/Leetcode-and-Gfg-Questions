@@ -31,13 +31,12 @@ public:
         }
         
        
-        // suppose an array like this [[],[],[],],here k = 3 and size of array is 0
-        if(arr.size() == 0) // if their is no element i.e zero element
+        // suppose an array like this [[],[],[],]
+        if(arr.size() == 0)
             return NULL;
         
         sort(arr.begin(), arr.end()); 
-        // sort on the basis of values
-        
+          
         // start making links b/w the elements of vector
         for(int i = 0; i < arr.size() - 1; i++)
         {
