@@ -4,10 +4,9 @@
 class DisjointSet{
     
 public:
-    vector <int> rank, parent, size;
+    vector <int> parent, size;
     
     DisjointSet(int n){
-        rank.resize(n+1, 0 );
         parent.resize(n + 1);
         size.resize(n + 1);
         for (int i = 0; i < n; i++)
@@ -23,28 +22,6 @@ public:
         }
 
         return parent[node] = findUltimateParent(parent[node]);
-    }
-
-    void unionByRank(int u, int v){
-        int ulp_u = findUltimateParent(u);
-        int ulp_v = findUltimateParent(v);
-
-        if(ulp_u==ulp_v){
-            return;
-        }
-
-        if(rank[ulp_u]< rank[ulp_v]){
-            parent[ulp_u] = ulp_v;
-        }
-
-        else if (rank[ulp_v]< rank[ulp_u]){
-            parent[ulp_v] = ulp_u;
-        }
-
-        else { //if same rank 
-            parent[ulp_v] = ulp_u; // v attached to u
-            rank[ulp_u]++; //larger one grows in size
-        }
     }
 
     void unionBySize(int u, int v){
@@ -101,6 +78,7 @@ public:
         //STEP2- BRUTE FORCE :  TRY TO CONVERT EVERY ZERO
         int mx =0;
         for (int row = 0; row<n ; row++){
+            
             for(int col = 0 ; col<n ; col++){
                 if (grid[row][col]==1){
                     continue;
@@ -130,6 +108,7 @@ public:
         for(int cellno =0; cellno<n*n ; cellno++){
             mx = max(mx, ds.size[ds.findUltimateParent(cellno)]);
         }
+        
         return mx;
     }
 };
