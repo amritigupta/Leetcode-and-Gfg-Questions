@@ -58,15 +58,21 @@ class Trie {
 
 public:
     int findMaximumXOR(vector<int>& nums) {
-       Trie trie;
-       int n = nums.size();
+        Trie trie;
+        int n = nums.size();
         int maxi=0;
+        
         for(int i=0;i<n;i++)
         {
           trie.insert(nums[i]);
-          maxi = max(maxi, trie.findMax(nums[i]));
+         
         }
-        
-       return maxi;       
+         for(int i=0;i<n;i++)
+        {
+          maxi = max(maxi, trie.findMax(nums[i]));
+         
+        }       
+         
+        return maxi;       
     }
 };
