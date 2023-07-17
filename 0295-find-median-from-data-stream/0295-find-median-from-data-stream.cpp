@@ -18,7 +18,8 @@ public:
 		if (maxHeap.size() > minHeap.size() + 1) {
 			minHeap.push(maxHeap.top());
 			maxHeap.pop();
-		} else if (minHeap.size() > maxHeap.size() + 1) {
+		}
+        else if (minHeap.size() > maxHeap.size() + 1) {
 			maxHeap.push(minHeap.top());
 			minHeap.pop();
 		}
@@ -38,7 +39,6 @@ public:
 		}
     }
 };
-
 
 /**
  * Your MedianFinder object will be instantiated and called as such:
