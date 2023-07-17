@@ -1,4 +1,5 @@
 //aggresive cows problem
+
 class Solution {
     bool ifpossible(vector<int>& position, int m, int mid){
         int ballcount = 1;
@@ -11,10 +12,12 @@ class Solution {
                 lastpos = position[i];
             }
         }
+        
         return false;
     }
     
 public:
+    
     int maxDistance(vector<int>& position, int m) {
         
         sort(position.begin(),position.end());
@@ -31,5 +34,6 @@ public:
             else e = mid-1;
         }
         return ans;
+        
     }
 };
