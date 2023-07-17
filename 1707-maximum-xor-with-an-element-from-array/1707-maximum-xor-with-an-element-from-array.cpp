@@ -6,9 +6,11 @@ struct Node {
   bool containsKey(int ind) {
     return (links[ind] != NULL);
   }
+    
   Node * get(int ind) {
     return links[ind];
   }
+    
   void put(int ind, Node * node) {
     links[ind] = node;
   }
@@ -17,6 +19,7 @@ struct Node {
 
     
 class Trie {
+    
   private: 
   Node * root;
 
@@ -43,28 +46,33 @@ class Trie {
       Node * node = root;
       int maxNum = 0;
       for (int i = 31; i >= 0; i--) {
-        int bit = (num >> i) & 1; //check ith bit in num
+        int bit = (num >> i) & 1;        //check ith bit in num
         if (node -> containsKey(!bit)) { //if opposite bit is present
-          maxNum = maxNum | (1 << i); //maxnum = maxnum || (1<<i)
-          node = node -> get(!bit); // go to next node
+          maxNum = maxNum | (1 << i);    //maxnum = maxnum || (1<<i)
+          node = node -> get(!bit);      // go to next node
         } 
         else {
-          node = node -> get(bit); // go to next node 
+          node = node -> get(bit);       // go to next node 
         }
       }
       return maxNum;
     }
 };
 
-public:
+public: 
     vector<int> maximizeXor(vector<int>& nums, vector<vector<int>>& queries) {
+        
         sort(nums.begin() , nums.end());
+        
         vector<pair<int,pair<int,int>>> oq;
         int q = queries.size();
+        
         for(int i=0; i<q; i++){
-            oq.push_back({queries[i][1], {queries[i][0], i}}) ; // ai, xi, i
+            oq.push_back({queries[i][1], {queries[i][0], i}}) ;   // ai, xi, i
         }
+        
         sort(oq.begin() , oq.end());
+        
         vector<int> ans(q,0);
         int ind=0;
         int n = nums.size();
