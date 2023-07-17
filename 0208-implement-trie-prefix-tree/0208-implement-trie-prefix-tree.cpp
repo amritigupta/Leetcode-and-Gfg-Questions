@@ -6,9 +6,11 @@ struct Node{
 	bool containsKey(char ch){
 		return links[ch-'a']!=NULL;
 	}
+    
 	void put(char ch,Node *node){
 		links[ch-'a']=node;
 	}
+    
 	Node *get(char ch){
 		return links[ch-'a'];
 	}
@@ -35,9 +37,9 @@ public:
 			if(!node->containsKey(word[i])){
 				node->put(word[i],new Node());
 			}
-			node=node->get(word[i]);
+			node=node->get(word[i]); //get reference link of next node
 		}
-		node->setEnd();
+		node->setEnd(); //set that the word has ended using flag = true
 	}
 
 	bool search(string word) {
@@ -46,9 +48,9 @@ public:
 			if(!node->containsKey(word[i])){
 				return false;
 			}
-			node=node->get(word[i]);
+			node=node->get(word[i]); //move to next reference
 		}
-		return node->isEnd();
+		return node->isEnd(); //returns true if flag is true and word length has ended
 	}
 
 	bool startsWith(string prefix) {
@@ -59,7 +61,7 @@ public:
 			}
 			node=node->get(prefix[i]);
 		}
-		return true;
+		return true; //returns true if word length has ended (no need to check flag)
 	}
 };
 
