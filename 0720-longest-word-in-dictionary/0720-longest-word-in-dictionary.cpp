@@ -3,8 +3,7 @@ public:
     string longestWord(vector<string>& words) {
         unordered_set<string>st(begin(words),end(words));
         sort(begin(words),end(words));
-        //for(auto i:words) cout<<i<<".";
-        //vector<string>same;
+  
         int maxcnt=-1;
         string str="";
         for(int i=0;i<words.size();i++)
