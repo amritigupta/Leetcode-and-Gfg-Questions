@@ -9,6 +9,7 @@ public:
     DisjointSet(int n){
         parent.resize(n + 1);
         size.resize(n + 1);
+        
         for (int i = 0; i < n; i++)
         {
             parent[i] = i;
@@ -100,6 +101,7 @@ public:
                 for (auto it: components){
                     size += ds.size[it];
                 }
+                
                 mx = max(size, mx);
             }
         }    
