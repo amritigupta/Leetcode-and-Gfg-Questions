@@ -37,6 +37,7 @@ class Solution
         if(M>N){
             return -1;
         }
+        
         int s = *max_element(A,A+N);
         int e=0;
         for(int i=0; i<N ; i++){
@@ -44,6 +45,7 @@ class Solution
         }
         
         int ans = -1;
+        
         while(s<=e){
             int mid = s+(e-s)/2;
             if(isvalid(mid, M, A, N)){
