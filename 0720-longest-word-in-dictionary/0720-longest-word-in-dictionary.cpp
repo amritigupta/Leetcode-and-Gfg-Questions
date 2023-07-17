@@ -48,6 +48,7 @@ class Trie{
     bool checkLongest(string &word){
         Node* node=root;
         bool ans=true;
+        
         for(int i=0;i<word.size();i++){
             if(node->containKey(word[i]))
             {
