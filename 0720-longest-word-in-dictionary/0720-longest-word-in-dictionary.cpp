@@ -1,3 +1,35 @@
+class Solution {
+public:
+    string longestWord(vector<string>& words) {
+        unordered_set<string>st(begin(words),end(words));
+        sort(begin(words),end(words));
+        //for(auto i:words) cout<<i<<".";
+        //vector<string>same;
+        int maxcnt=-1;
+        string str="";
+        for(int i=0;i<words.size();i++)
+        {   
+            int cnt=0;
+            if(isvalid(words[i],st,cnt) and cnt>maxcnt){
+                maxcnt=cnt;
+                str=words[i];
+            }
+        }
+        return str;
+    }
+    
+    bool isvalid(string word,unordered_set<string>&st,int &cnt)
+    {   
+        if(word.size()==1 and st.count(word)) return true;//if size of word become 1 and it exist in set return
+        word.pop_back();//removing last character form the word
+        if(st.count(word)){
+            cnt++;
+            return isvalid(word,st,cnt);
+        }
+        return false;//if above condition fails return false
+    }
+};
+/*
 struct Node{
     
     Node* links[26];
@@ -81,11 +113,10 @@ public:
                     ans=it;
                 else if(it.length()==ans.length() && it<ans)
                     ans=it;
-                    
             }
         }
         
         return ans;
     }
    
-};
+}; */
