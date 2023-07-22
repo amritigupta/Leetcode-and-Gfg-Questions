@@ -25,7 +25,8 @@ vector<int> help_classmate(vector<int> arr, int n)
             if(st.top()<arr[i])
             {
                 ans.push_back(st.top());
-                st.push(arr[i++]);
+                st.push(arr[i]);
+                i++;
             }
             else
                 st.pop();
