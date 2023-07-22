@@ -22,7 +22,8 @@ int countRev (string s)
     if (s.size()%2 != 0)
          return -1;
          
-     int open=0; int close=0; 
+     int open=0; 
+     int close=0; 
      stack<char> st;
      
      for (int i=0; i< s.length(); i++){
@@ -45,5 +46,8 @@ int countRev (string s)
          return -1;
      }
      
-     else return  (close+1)/2+(open+1)/2;
+     if(open%2==0 && close%2==0){
+         return (close+open)/2;
+     }
+     else return  ((close+open)/2+1);
 }
