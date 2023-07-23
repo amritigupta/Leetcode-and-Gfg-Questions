@@ -1,48 +1,48 @@
 
 class Solution {
 public:
-    vector<int> nextSmallerElementIndex(vector<int>& heights,int n){
+    vector<int> nextsmallerelement(vector<int>& heights){
+        vector<int> res;
         stack<int> st;
-        vector<int> res(n);
         st.push(-1);
-        for(int i=n-1;i>=0;i--){
-            int curr=heights[i];
-            while(st.top()!=-1 && heights[st.top()]>=curr){
+        for(int i=heights.size()-1; i>=0; i--){
+            while(st.top()!=-1 && heights[st.top()]>=heights[i]){
                 st.pop();
             }
-            res[i]=st.top();
+            res.push_back(st.top());
             st.push(i);
         }
+        reverse(res.begin(), res.end());
         return res;
     }
     
-    vector<int> prevSmallerElementIndex(vector<int>& heights,int n){
+    vector<int> prevsmallerelement(vector<int>& heights){
+        vector<int> res;
+        int n = heights.size();
         stack<int> st;
-        vector<int> res(n);
         st.push(-1);
-        for(int i=0;i<n;i++){
-            int curr=heights[i];
-            while(st.top()!=-1 && heights[st.top()]>=curr){
+        for(int i=0; i<n; i++){
+            while(st.top()!=-1 && heights[st.top()]>=heights[i]){
                 st.pop();
             }
-            res[i]=st.top();
+            res.push_back(st.top());
             st.push(i);
         }
         return res;
     }
     
     int largestRectangleArea(vector<int>& heights) {
-        int n=heights.size();
-        vector<int> next=nextSmallerElementIndex(heights,n);
-        vector<int> prev=prevSmallerElementIndex(heights,n);
+        int n = heights.size();
+        vector<int> next = nextsmallerelement(heights);
+        vector<int> prev = prevsmallerelement(heights);
         
-        int ans=INT_MIN;
-        for(int i=0;i<n;i++){
-            int l=heights[i];
-            if(next[i]==-1) next[i]=n;
-            int b=next[i]-prev[i]-1;
-            ans=max(ans,l*b);
+        int maxi=INT_MIN;
+        for(int i=0; i<n; i++){
+            if(next[i]==-1){
+                next[i]=n;
+            }
+            maxi=max(maxi, heights[i]*(next[i]-prev[i]-1));
         }
-        return ans;
+        return maxi;
     }
 };
