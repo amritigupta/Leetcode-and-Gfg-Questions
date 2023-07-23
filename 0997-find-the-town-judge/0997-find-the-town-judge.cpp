@@ -12,7 +12,7 @@ public:
             trust_matrix[val1-1][val2-1]=1;
         }
         
-        stack<int> s;
+        queue<int> s;
         for(int i=0;i<n;i++)
         {
             s.push(i);
@@ -20,9 +20,9 @@ public:
         
         while(s.size()>=2)
         {
-            int i=s.top();
+            int i=s.front();
             s.pop();
-            int j=s.top();
+            int j=s.front();
             s.pop();
             
             if(trust_matrix[i][j]==1)
@@ -35,7 +35,7 @@ public:
             }
         }
     
-        int pot=s.top();
+        int pot=s.front();
         s.pop();
         
         int flag=pot+1;
