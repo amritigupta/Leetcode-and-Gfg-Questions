@@ -1,33 +1,33 @@
 class Solution {
 public:
-    using ll = long long;
-
-    bool canSplit(vector<int>& nums, int m, ll sum) {
-        int c = 1;
-        ll s = 0;
-        for (auto& num : nums) {
-            s += num;
-            if (s > sum) {
-                s = num;
-                ++c;
+    bool check(vector<int>&nums, int threshold,int tar){
+       int coun = 1;
+       int sum = 0;
+       for(int i=0;i<nums.size();i++){
+           sum += nums[i];
+           if(sum > threshold){
+               sum = nums[i];
+               coun++;
+           }
+           if(coun > tar) return false;
+       } 
+       return true;
+    }
+   
+    int splitArray(vector<int>& nums, int k) {
+        int n = nums.size();
+        int low = *max_element(nums.begin(),nums.end()); //start
+        int high = accumulate(nums.begin(),nums.end(),0); //end
+        while(low <= high){
+            int mid = (low+high)/2; //mid
+            if(check(nums,mid,k)){
+                high = mid-1;
+            }
+            else
+            {
+                low = mid+1;
             }
         }
-        return c <= m;
-    }
-
-    int splitArray(vector<int>& nums, int m) {
-        ll left = 0, right = 0;
-        for (auto& num : nums) {
-            left = max(left, (ll)num);
-            right += num;
-        }
-        while (left <= right) {
-            ll mid = left + (right-left)/2;
-            if (canSplit(nums, m, mid))
-                right = mid-1;
-            else
-                left = mid+1;
-        }
-        return left;
+        return low;
     }
 };
