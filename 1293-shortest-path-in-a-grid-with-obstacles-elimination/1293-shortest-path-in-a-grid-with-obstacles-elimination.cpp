@@ -11,7 +11,7 @@ public:
         return ans;
     }
 
-    int path(vector<vector<int>>& grid, int k, int r, int c,vector<vector<bool>>& visited, vector<vector<vector<int>>>& dp){
+int path(vector<vector<int>>& grid, int k, int r, int c,vector<vector<bool>>& visited, vector<vector<vector<int>>>& dp){
         int m = grid.size();
         int n = grid[0].size();
 
