@@ -1,6 +1,6 @@
 
 class Solution {
-    public:
+public:
    bool checkpossible(string s1 ,string s2){
        int s1s = s1.size();
        int s2s = s2.size();
