@@ -114,20 +114,21 @@ class Solution {
     }
     
     bool isMaxOrder(struct Node* root){
+        //leaf node
         if(root->left==NULL && root->right==NULL){
             return true;
         }
         
+        //right is null(left cant be null for CBT)
         if(root->right ==NULL){
             return (root->data >root->left->data);
         }
         
+        //mid node
         else 
-            bool left=isMaxOrder(root->left);
-            bool right=isMaxOrder(root->right);
-            
-            return (left && right && 
-                        (root->data > root->left->data && root->data>root->right->data ));
+
+            return ((root->data > root->left->data && root->data>root->right->data ) &&
+            isMaxOrder(root->left) && isMaxOrder(root->right));
         }
         
     bool isHeap(struct Node* tree) {
