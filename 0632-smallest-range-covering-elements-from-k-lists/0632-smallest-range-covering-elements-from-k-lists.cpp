@@ -1,36 +1,41 @@
-typedef pair<int, pair<int, int>> pi;
+typedef pair< int, pair<int,int>> pi;
 
 class Solution {
 public:
     vector<int> smallestRange(vector<vector<int>>& nums) {
-        int n = nums.size();
+        int k = nums.size();
         priority_queue<pi, vector<pi>, greater<pi>> pq;
-        int mn = INT_MAX, mx = INT_MIN, range = INT_MAX;
-        
-        for (int i=0; i<n; i++) {
+        int maxi=INT_MIN;
+        for(int i=0; i<k ; i++){
+            maxi = max(maxi, nums[i][0]);
             pq.push({nums[i][0], {i, 0}});
-            mn = min(mn, nums[i][0]);
-            mx = max(mx, nums[i][0]);
         }
         
-        int a = mn, b = mx;
-        while (!pq.empty()) {
-            pi curr = pq.top();
+        int range = INT_MAX;
+        vector<int> ans(2, -1);
+                    
+        while(!pq.empty()){
+            auto it = pq.top();
             pq.pop();
-
-            if (curr.second.second + 1 < nums[curr.second.first].size()) {
-                int r = curr.second.first, c = curr.second.second + 1;
-                pq.push({nums[r][c], {r, c}});
-                mn = pq.top().first;
-                mx = max(mx, nums[r][c]);
-                if (b-a > mx-mn) {
-                    a = mn;
-                    b = mx;
-                }
-            } else {
+            int mini = it.first;
+            int row = it.second.first;
+            int col = it.second.second;
+            
+            if(maxi - mini < range){
+                range = maxi-mini;
+                ans[0]=mini;
+                ans[1]=maxi;
+            }
+            
+            if(col<nums[row].size()-1){
+                maxi = max(maxi, nums[row][col+1]);
+                pq.push({nums[row][col+1] , {row, col+1}});
+            }
+            else{
                 break;
             }
         }
-        return {a, b};
+                    
+        return ans;
     }
 };
