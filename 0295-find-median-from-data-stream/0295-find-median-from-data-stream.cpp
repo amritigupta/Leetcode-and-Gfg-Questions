@@ -8,7 +8,7 @@ public:
     }
     
     void addNum(int num) {
-      if(!minHeap.empty() && num >= minHeap.top()){
+      if(minHeap.empty() || num >= minHeap.top()){
         minHeap.push(num);
         if(minHeap.size() > maxHeap.size()+1){
           maxHeap.push(minHeap.top());
