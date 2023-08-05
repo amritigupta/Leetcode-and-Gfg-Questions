@@ -24,10 +24,9 @@ class Solution {
         return dp[i]=mmsteps;
         
     }
-  public:
+   public:
     int minimizeCost(vector<int>& height, int n, int k) {
         vector<int> dp(n+1, -1);
-        
         return f(n-1 , k, height, dp);
     }
 };
