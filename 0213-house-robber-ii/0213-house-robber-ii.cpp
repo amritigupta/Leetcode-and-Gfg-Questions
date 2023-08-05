@@ -1,26 +1,23 @@
-
 class Solution {
 public:
-    int houseRobber(vector<int>& nums) {
-      
-        int dp[nums.size()+1];
-        dp[0] = nums[0];
-        dp[1] = max(nums[0], nums[1]);
-        for (int i=2; i<nums.size(); i++)
-            dp[i] = max(dp[i-1], nums[i]+dp[i-2]);
+	int maxsum(int i,vector<int>& nums,vector<int>& dp){
+		if(i<0)return 0;
         
-        return dp[nums.size()-1];
-    }
-    
-    int rob(vector<int>& nums) {
-        // edge cases:
-        if (nums.size() == 0) return 0;
-        if (nums.size() == 1) return nums[0];
-        if (nums.size() == 2) return max(nums[0], nums[1]);
+		if(dp[i]!=-1)return dp[i];
         
-        // either use first house and can't use last or last and not first:
-        vector<int> v1(nums.begin(), nums.end()-1);
-        vector<int> v2(nums.begin()+1, nums.end());
-        return max(houseRobber(v1), houseRobber(v2));
-    }
+		int pick=nums[i]+maxsum(i-2,nums,dp);
+		int notpick=maxsum(i-1,nums,dp);
+		return dp[i]=max(pick,notpick);
+	}
+
+	int rob(vector<int>& nums) {
+		int n=nums.size();
+		if(n==1)return nums[0];
+		vector<int>nums1,nums2,dp1(n-1,-1),dp2(n-1,-1);
+		for(int i=0;i<n;i++){
+			if(i!=0)nums1.push_back(nums[i]);
+			if(i!=n-1)nums2.push_back(nums[i]);
+		}
+		return max(maxsum(n-2,nums1,dp1),maxsum(n-2,nums2,dp2)); 
+	}
 };
