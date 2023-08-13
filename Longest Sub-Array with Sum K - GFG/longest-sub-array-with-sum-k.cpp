@@ -12,9 +12,12 @@ class Solution{
         int ans=0;        
         int sum=0;
         unordered_map<int,int> mpp;
-        mpp[0]=-1;
+
         for(int i=0; i<n; i++){
             sum+=a[i];
+            if(sum==k){
+                ans=max(ans, i+1);
+            }
             if(mpp.find(sum)==mpp.end()){
                 mpp[sum]=i;
             }
