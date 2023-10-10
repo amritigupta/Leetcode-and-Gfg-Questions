@@ -15,6 +15,7 @@ public:
                  cnt--;
             }
         }
+        
         int cnt1=0;
         for(int i=0; i<v.size(); i++){
             if(v[i]==el){
