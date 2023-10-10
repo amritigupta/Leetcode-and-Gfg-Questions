@@ -1,22 +1,32 @@
 class Solution {
 public:
-    int majorityElement(vector<int>& nums) {
-        int n = nums.size();
-
-        map<int,int> mymap;
-
-        int x=999;
-
-        for (int i=0; i<n; i++){
-            mymap[nums[i]]++;
-        }
-
-        for (int i=0; i<nums.size() ;i++){
-            if ( mymap[nums[i]] >= (n/2 + 1) ){
-                return nums[i];
+    int majorityElement(vector<int>& v) {
+        int cnt=0;
+        int el ;
+        for(int i=0; i<v.size(); i++){
+            if(cnt==0){
+                el=v[i];
+                cnt++; 
+            }
+            else if(v[i]==el){
+                cnt++;
+            }
+            else{
+                 cnt--;
             }
         }
-
-        return x;
+        int cnt1=0;
+        for(int i=0; i<v.size(); i++){
+            if(v[i]==el){
+                cnt1++;
+            }
+        }
+        
+        if(cnt1>v.size()/2){
+            return el;
+        }
+        else{
+            return -1;
+        }
     }
 };
