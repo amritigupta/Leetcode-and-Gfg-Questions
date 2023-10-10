@@ -1,5 +1,6 @@
 class Solution {
 public:
+    
     void nextPermutation(vector<int>& nums) {
         int index = -1;
         int n = nums.size();
@@ -14,8 +15,10 @@ public:
         if(index==-1){
             reverse(nums.begin(),nums.end());
         }
+        
         else{
             int current = index;
+            
             for(int i=index+1;i<n;i++){
                 if(nums[i]>nums[index-1] and nums[i]<=nums[current]){
                     current = i;
@@ -23,7 +26,8 @@ public:
             }
             
             swap(nums[index-1],nums[current]);
-            reverse(nums.begin()+index,nums.end());
+            reverse(nums.begin()+index,nums.end());            
         }
     }
-};
+}; 
+
