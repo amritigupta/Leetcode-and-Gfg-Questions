@@ -20,7 +20,7 @@ class Solution{
                 count++;
             }
             
-            count+= mpp[sum-k];
+            if(mpp.find(sum-k)!=mpp.end()) count+= mpp[sum-k];
             
             mpp[sum]++;
         }
