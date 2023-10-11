@@ -1,31 +1,40 @@
 class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        vector<vector<int>> ans;
         int n = nums.size();
         sort(nums.begin(), nums.end());
-        vector<vector<int>> output;
-        for(int i=0; i<n-3; i++){
-            for(int j=i+1; j<n-2; j++){
+        for(int i=0; i<n ; i++){
+            if(i>0 && nums[i]==nums[i-1]) continue;
+            for(int j=i+1; j<n; j++){
+                if(j!=i+1 && nums[j]==nums[j-1]) continue;
                 long long newTarget = (long long)target - (long long)nums[i] - (long long)nums[j];
-                int low = j+1, high = n-1;
-                while(low < high){
-                    if(nums[low] + nums[high] < newTarget){
-                        low++;
+                int left = j+1;
+                int right = n-1;
+                
+                while(left < right){
+                    int sum = nums[left]+nums[right];
+                    if(sum==newTarget){
+                        ans.push_back({nums[i], nums[j], nums[left], nums[right]});
+                        left++;
+                        right--;
+                        while(left<right && nums[left]==nums[left-1]){
+                            left++;
+                        }
+                        while(left<right && nums[right]==nums[right+1]){
+                            right--;
+                        }
                     }
-                    else if(nums[low] + nums[high] > newTarget){
-                        high--;
+                    else if(sum<newTarget){
+                        left++;
                     }
                     else{
-                        output.push_back({nums[i], nums[j], nums[low], nums[high]});
-                        int tempIndex1 = low, tempIndex2 = high;
-                        while(low < high && nums[low] == nums[tempIndex1]) low++;
-                        while(low < high && nums[high] == nums[tempIndex2]) high--;
+                        right--;
                     }
                 }
-                while(j+1 < n && nums[j] == nums[j+1]) j++;
             }
-            while(i+1 < n && nums[i] == nums[i+1]) i++;
         }
-        return output;
+        
+        return ans;
     }
 };
