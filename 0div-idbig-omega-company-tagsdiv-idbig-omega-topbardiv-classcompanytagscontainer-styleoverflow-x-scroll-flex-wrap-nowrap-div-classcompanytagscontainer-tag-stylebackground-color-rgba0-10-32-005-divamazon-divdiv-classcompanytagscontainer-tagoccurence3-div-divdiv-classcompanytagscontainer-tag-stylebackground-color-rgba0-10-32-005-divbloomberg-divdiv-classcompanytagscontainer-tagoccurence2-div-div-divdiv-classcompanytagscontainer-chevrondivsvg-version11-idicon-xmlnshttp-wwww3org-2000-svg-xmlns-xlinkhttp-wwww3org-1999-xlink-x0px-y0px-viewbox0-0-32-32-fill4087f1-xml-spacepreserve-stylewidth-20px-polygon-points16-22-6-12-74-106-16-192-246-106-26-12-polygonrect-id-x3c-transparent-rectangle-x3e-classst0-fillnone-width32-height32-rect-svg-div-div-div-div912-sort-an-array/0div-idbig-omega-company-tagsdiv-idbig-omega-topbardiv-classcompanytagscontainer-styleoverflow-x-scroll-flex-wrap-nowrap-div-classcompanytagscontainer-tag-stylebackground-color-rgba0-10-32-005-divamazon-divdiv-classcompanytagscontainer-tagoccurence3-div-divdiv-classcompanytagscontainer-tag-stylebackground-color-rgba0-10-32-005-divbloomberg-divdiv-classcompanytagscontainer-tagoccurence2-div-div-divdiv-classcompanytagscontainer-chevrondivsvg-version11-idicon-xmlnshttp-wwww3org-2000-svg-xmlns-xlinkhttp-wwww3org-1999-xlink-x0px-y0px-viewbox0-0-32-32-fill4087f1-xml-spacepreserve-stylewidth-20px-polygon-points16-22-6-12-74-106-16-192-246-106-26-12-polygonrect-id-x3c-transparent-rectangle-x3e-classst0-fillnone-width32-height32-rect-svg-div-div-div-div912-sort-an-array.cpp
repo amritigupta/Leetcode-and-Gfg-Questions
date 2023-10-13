@@ -1,81 +1,50 @@
-class Solution {
+class Solution{
+    
 public:
-    vector<int> sortArray(vector<int>& nums) {
-        int n = nums.size();
-        mergeSort(nums, n);
-        return nums;
-    }
-
-    //helper function
-    void mergeSort(vector<int> &A, int n)
+void merge(vector<int>& nums, int l, int m, int r)
+{
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    int A[n1], B[n2];
+    
+    for(int i = 0; i < n1; i++)
+        A[i] = nums[l + i];
+    
+    for(int i = 0; i < n2; i++)
+        B[i] = nums[m + 1 + i];
+    
+    int i = 0, j = 0;
+    int k = l;
+    
+    while(i < n1 && j < n2)
     {
-        //if the size of array is less than two, it means it contains only a single element so there is no need of sorting -> simply return
-        if (n < 2)
-            return;
-        //calculate the middle position
-        int mid = n / 2;
-
-        //initialize two array left and right to store the two parts of array
-        vector<int> L;
-        vector<int> R;
-
-        for (int i = 0; i < n; i++)
-        {
-        //if the value of pointer is less than middle position push the element in left subarray
-            if (i < mid)
-            {
-                L.push_back(A[i]);
-            }
-        //else push the element in right subarray
-            else
-                R.push_back(A[i]);
-        }
-
-        //sort both left and right subarray individually
-        mergeSort(L, L.size());
-        mergeSort(R, R.size());
-
-        //merge left and right subarray after sorting them
-        mergeArrays(A, L, R);
+        if(A[i] <= B[j])
+            nums[k++] = A[i++];
+        else
+            nums[k++] = B[j++];
     }
+    
+    while(i < n1)
+        nums[k++] = A[i++];
+    while(j < n2)
+        nums[k++] = B[j++];
+}
 
-    void mergeArrays(vector<int> &A, vector<int> &L, vector<int> &R)
-    {
+void mergeSort(vector<int>& nums, int l, int r)
+{
+    if(l >= r)  //remember to put the equal to sign
+        return;
+    
+    int m = l + (r - l)/2;
+    mergeSort(nums, l, m);
+    mergeSort(nums, m + 1, r);
+    merge(nums, l, m, r);
+}
 
-        int sizeL = L.size();
-        int sizeR = R.size();
-        //initialize pointers for each array -> left, right and final
-        int i = 0, j = 0, k = 0;
-
-        while (i < sizeL && j < sizeR)
-        {
-            //if element at position i of left array is less than or equal to element at position j of right -> update the position k of final array with left[i]
-            if (L[i] <= R[j])
-            {
-                A[k] = L[i];
-                i++;
-            }
-            //similarlly is element of right is less than element of left -> update the position of final array with element of right
-            else
-            {
-                A[k] = R[j];
-                j++;
-            }
-            k++;
-        }
-
-        //if still there are remaining element in an array , simply append them into the final array
-        while (i < sizeL)
-        {
-            A[k] = L[i];
-            i++;
-            k++;
-        }
-        while (j < sizeR)
-        {
-            A[k] = R[j];
-            j++;
-            k++;
-        }
-    }
+vector<int> sortArray(vector<int>& nums) 
+{
+    mergeSort(nums, 0, nums.size() - 1);
+    return nums;
+}  
+    
 };
