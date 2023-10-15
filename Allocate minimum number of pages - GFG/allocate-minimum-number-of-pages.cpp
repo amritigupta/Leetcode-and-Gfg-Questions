@@ -40,7 +40,7 @@ class Solution
         }
         
         int s = *max_element(A,A+N);
-        int e=accumulate
+        int e=accumulate(A,A+N, 0);
         
         int ans = -1;
         
