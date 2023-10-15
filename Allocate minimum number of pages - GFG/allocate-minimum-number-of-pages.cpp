@@ -9,6 +9,7 @@ using namespace std;
 //User function template in C++
 
 class Solution 
+
 {
     public:
     bool isvalid(int mid, int M , int A[], int N){
@@ -39,10 +40,7 @@ class Solution
         }
         
         int s = *max_element(A,A+N);
-        int e=0;
-        for(int i=0; i<N ; i++){
-            e+=A[i];
-        }
+        int e=accumulate
         
         int ans = -1;
         
