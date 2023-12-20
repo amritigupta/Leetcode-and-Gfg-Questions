@@ -13,21 +13,17 @@ public:
     }
 	
 vector<int> sortByBits(vector<int>& arr) {
-    map<int,vector<int>>mp;
+    multimap<int,int>mp;
     vector<int>v;
     sort(arr.begin(),arr.end());
     for(int i=0;i<arr.size();i++)
     {
-       mp[countbit(arr[i])].push_back(arr[i]); 
+       mp.insert({countbit(arr[i]),arr[i]});
     }
 
     for(auto it:mp)
     {
-        for(int a:it.second)
-        {
-        v.push_back(a);
-        }
-        
+        v.push_back(it.second);
     }
  
     return v;
