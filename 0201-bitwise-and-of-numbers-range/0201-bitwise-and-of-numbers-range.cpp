@@ -12,7 +12,7 @@ public:
         while(left!=right){
             left>>=1;
             right>>=1;
-            count++;
+            count++; //counts how many bits r not equal(so these bits shall be 0 from left)
         }
             
         return left<<=count;
