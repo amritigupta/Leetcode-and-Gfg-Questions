@@ -1,43 +1,56 @@
 class Solution {
+    vector<int> di = {-1,1,0,0};
+    vector<int> dj = {0,0,-1,1};
+
 public:
     int numEnclaves(vector<vector<int>>& grid) {
-        int count=0, m=grid.size(), n=grid[0].size();
-        vector<vector<int>> vis(m,vector<int>(n,0));
-        queue<pair<int,int>>q;
-        
-        for(int i = 0;i<m;++i){
-            for(int j=0;j<n;++j){
-                if((i==0 || j==0 || i==m-1 || j==n-1) && grid[i][j]==1){
-                    q.push({i,j});
-                    vis[i][j]=1;
-                }
+        int n = grid.size();
+        int m = grid[0].size();
+
+        queue<pair<int,int>> q;
+
+        for(int i=0; i<n; i++){
+            if(grid[i][0]==1){
+                q.push({i,0});
+            }
+            if(grid[i][m-1]==1){
+                q.push({i, m-1});
             }
         }
-        
-        int dx[] = {-1,0,+1,0};
-        int dy[] = {0,-1,0,+1};
+
+        for(int j=0; j<m; j++){
+            if(grid[0][j]==1){
+                q.push({0, j});
+            }
+            if(grid[n-1][j]==1){
+                q.push({n-1, j});
+            }
+        }
+
         while(!q.empty()){
-            int r=q.front().first;
-            int c=q.front().second;
+            int i = q.front().first;
+            int j = q.front().second;
+            grid[i][j]=2;
             q.pop();
-            
-            for(int i=0;i<4;++i){
-                int nr=r+dx[i];
-                int nc=c+dy[i];
-                if(nr>=0 && nc>=0 && nr<m && nc<n && grid[nr][nc]==1 && vis[nr][nc]==0){
-                    vis[nr][nc]=1;
-                    q.push({nr,nc});
+
+            for(int k=0; k<4; k++){
+                int ni = i+di[k];
+                int nj = j+dj[k];
+
+                if(ni>=0 && ni<n && nj>=0 && nj<m && grid[ni][nj]==1){
+                    q.push({ni,nj});
                 }
             }
         }
-        
-        for(int i=0;i<m;++i){
-            for(int j=0;j<n;++j){
-               if(grid[i][j]==1 && vis[i][j]==0){
-                   ++count;
-               }
+
+        int ans=0;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(grid[i][j]==1){
+                    ans++;
+                }
             }
         }
-        return count;
+        return ans;
     }
 };
