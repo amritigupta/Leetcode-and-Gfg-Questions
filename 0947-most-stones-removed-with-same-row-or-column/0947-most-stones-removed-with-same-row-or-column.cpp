@@ -1,121 +1,102 @@
- class Solution {
-public:
-    int n;
-    vector<int> vis;
-    
-    //Same as no of ISalands and can be aslo done with union find algorithm (DSU)
-    void dfs(int idx,vector<vector<int>> &stones){
-        vis[idx] = true;
-        for(int i=0;i<n;i++){
-            if(vis[i]) continue;
-            if(stones[idx][0] == stones[i][0] || stones[idx][1] == stones[i][1]){
-                dfs(i,stones);
-            }
-        }
-        return;
-    }
-    
-    int removeStones(vector<vector<int>>& stones) {
-        n = stones.size();
-        vis.resize(n,0);
-        int val = 0;
-        for(int i=0;i<n;i++){
-            if(vis[i]) continue;
-            val++;
-            dfs(i,stones);
-        }
-        return n - val;
-    }
-    
-};
-
-
-/*
-class DSU
-{
-public:
+class DisjointSet {
     vector<int> rank, parent, size;
-    DSU(int n)
-    {
-       
+public:
+    DisjointSet(int n) {
+        rank.resize(n + 1, 0);
         parent.resize(n + 1);
-        size.resize(n + 1);
-        for (int i = 0; i <= n; i++)
-        {
+        size.resize(n + 1, 1);
+        for (int i = 0; i <= n; i++) {
             parent[i] = i;
-            size[i] = 1;
         }
     }
 
-    int findUPar(int node)
-    {
-        if (node == parent[node])
+    int findupar(int node) {
+        if (node == parent[node]) {
             return node;
-        return parent[node] = findUPar(parent[node]);
+        }
+
+        return parent[node] = findupar(parent[node]); //path compression
     }
 
-   
-    void unionBySize(int u, int v)
-    {
-        int ulp_u = findUPar(u);
-        int ulp_v = findUPar(v);
-        if (ulp_u == ulp_v)
+    void unionbyrank(int u, int v) {
+        int ulp_u = findupar(u);
+        int ulp_v = findupar(v);
+        if (ulp_u == ulp_v) {
+            // u and v belong to same component
             return;
-        if (size[ulp_u] < size[ulp_v])
-        {
+        }
+
+        if (rank[ulp_u] < rank[ulp_v]) {
+            //smaller gets attached to larger
+            //rank doesnt change
+            parent[ulp_u] = ulp_v;
+        }
+        else if (rank[ulp_u] > rank[ulp_v]) {
+            //smaller gets attached to larger
+            //rank doesnt change
+            parent[ulp_v] = ulp_u;
+        }
+        else {
+            //attach v to u (or vice versa)
+            //incease rank of u by 1 (or vice versa)
+            parent[ulp_v] = ulp_u;
+            rank[ulp_u]++;
+        }
+    }
+
+    void unionbysize(int u, int v) {
+        int ulp_u = findupar(u);
+        int ulp_v = findupar(v);
+        if (ulp_u == ulp_v) return;
+        if (size[ulp_u] < size[ulp_v]) {
             parent[ulp_u] = ulp_v;
             size[ulp_v] += size[ulp_u];
         }
-        else
-        {
+        else {
             parent[ulp_v] = ulp_u;
             size[ulp_u] += size[ulp_v];
         }
-    }    
-};
-
-class Solution {
-public:
-    int removeStones(vector<vector<int>>& stones) {
-
-    int n=stones.size();
-
-    int maxrow=0;
-    int maxcol=0;
-
-    for(auto it:stones){
-        maxrow=max(maxrow,it[0]);
-        maxcol=max(maxcol,it[1]);
     }
-
-    DSU ds(maxrow+maxcol+1);
-
-    vector<int> vis(maxrow+maxcol+2,0);
-
-    for(auto it:stones){
-        int x=it[0];
-        int y=maxrow+it[1]+1;
-
-        vis[x]=1;
-        vis[y]=1;
-
-        if(ds.findUPar(x)!=ds.findUPar(y)){
-            ds.unionBySize(x,y);
+};
+class Solution {
+  public:
+    int removeStones(vector<vector<int>>& stones)  {
+        int n = stones.size();
+        int maxr = 0;
+        int maxc = 0;
+        
+        for(auto it: stones){
+            maxr = max(it[0], maxr);
+            maxc = max(it[1], maxc);
         }
         
-    }
-
-    int m=vis.size();
-
-    unordered_set<int> st;
-
-    for(int i=0;i<m;i++){
-        if(vis[i]==1){
-            st.insert(ds.findUPar(i));
+        DisjointSet ds(maxr + maxc + 1);
+        
+        unordered_map<int, int> rownode ;
+        int temp = maxc; // 0 1 2 3 is taken
+        
+        for(int i=0; i<=maxr ; i++ ){
+            rownode[i]= temp+1; // 0 -> 4 , 1 -> 5 and so on
+            temp++;
         }
-    }
+        
+        for(auto it: stones){
+            int srow = it[0];
+            int scol = it[1];
 
-    return stones.size()-st.size();
-
+            if(ds.findupar(scol)!=ds.findupar(rownode[srow])) {
+                ds.unionbyrank(scol, rownode[srow]);
+            }
+        }
+        
+        unordered_set<int> ulps;
+        for(auto it: stones){
+            int srow = it[0];
+            int scol = it[1];
+            ulps.insert(ds.findupar(rownode[srow]));
+            ulps.insert(ds.findupar(scol));
+        }
+        int cnt = ulps.size();
+        return n-cnt;
     }
-}; */
+};
