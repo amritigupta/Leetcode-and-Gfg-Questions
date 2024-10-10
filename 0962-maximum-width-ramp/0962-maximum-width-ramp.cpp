@@ -1,25 +1,21 @@
 class Solution {
 public:
     int maxWidthRamp(vector<int>& nums) {
-        multimap<int, int> mpp;
-        for(int i=0; i<nums.size(); i++){
-            mpp.insert({nums[i], i});
+        stack<int> monoStack;
+        int n = nums.size();
+        int result = 0;
+        for (int i = 0; i < n; ++i) {
+            if (monoStack.empty() || nums[monoStack.top()] > nums[i]) {
+                monoStack.push(i);
+            }
+        }
+        for (int j = n - 1; j >= 0; --j) {
+            while (!monoStack.empty() && nums[j] >= nums[monoStack.top()]) {
+                result = max(result, j - monoStack.top());
+                monoStack.pop();
+            }
         }
 
-        vector<int> v;
-        for(auto it: mpp){
-            cout<<it.second<<" ";
-            v.push_back(it.second);
-        }
-        cout<<endl;
-
-        int mini = INT_MAX;
-        int ans = INT_MIN;
-        for(int i=0; i<v.size(); i++){
-            ans=max(ans, v[i]-mini);
-            mini=min(mini, v[i]);
-        }
-        if(ans>=0) return ans;
-        else return 0;
+        return result;
     }
 };
