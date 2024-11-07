@@ -8,7 +8,7 @@ class Solution {
             mpp[nums[j]]++;
             while(mpp.size()>k){
                 mpp[nums[i]]--;
-                if(mpp[nums[i]]==0)mpp.erase(nums[i]);
+                if(mpp[nums[i]]==0) mpp.erase(nums[i]);
                 i++;
             }
             ans+=j-i+1;
