@@ -10,32 +10,41 @@
  * };
  */
 class Solution {
-    int findheight(TreeNode* root){
+
+    // O(N^2) APPROACH
+
+//     int height(TreeNode* root){
+//         if(root==NULL) return 0;
+//         return 1+max(height(root->left), height(root->right));
+//     }
+// public:
+//     bool isBalanced(TreeNode* root) {
+//         if(root==NULL) return true;
+
+//         int lh = height(root->left);
+//         int rh = height(root->right);
+
+//         if(abs(lh-rh)>1) return false;
+
+//         return (isBalanced(root->left) && isBalanced(root->right));
+//     }
+
+    public: 
+    // O(N) APPROACH : striver
+    int height(TreeNode* root){
         if(root==NULL) return 0;
-        
-        int lh = findheight(root->left);
-        int rh = findheight(root->right);
-        
-        return 1+max(lh,rh);
+
+        int lh = height(root->left);
+        int rh = height(root->right);
+
+        if(lh==-1 || rh==-1) return -1;
+        if(abs(lh-rh) > 1) return -1;
+
+        return 1 + max(lh, rh);
     }
 
-public:
     bool isBalanced(TreeNode* root) {
-        if (root == NULL){
-            return true;
-        }
-        
-        int lh = findheight(root->left);
-        int rh = findheight(root->right);
-        
-        if (abs(lh-rh)>1){
-            return false;
-        }
-        
-        if (!isBalanced(root->left) || !isBalanced(root->right)){ //if either left or right is unbalanced
-            return false;
-        }
-        
+        if(height(root)==-1) return false;
         return true;
     }
 };
