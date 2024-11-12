@@ -1,33 +1,31 @@
 class Solution {
+    vector<int> dx = {-1,1,0,0};
+    vector<int> dy = {0,0,1,-1};
+
+    void dfs(int x, int y,vector<vector<char>>& grid, vector<vector<int>> &vis, int n , int m){
+        vis[x][y]=1;
+        for(int i=0; i<4; i++){
+            int nx = x+dx[i];
+            int ny = y+dy[i];
+            if(nx>=0 && nx<n && ny>=0 && ny<m && vis[nx][ny]==0 && grid[nx][ny]=='1') dfs(nx, ny, grid, vis, n, m);
+        }   
+    }
+
 public:
     int numIslands(vector<vector<char>>& grid) {
         int n = grid.size();
         int m = grid[0].size();
-        vector<vector<bool>> visited(n, vector<bool> (m, false));
-        int cnt = 0;
-        vector<vector<int>> directions {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-                if(grid[i][j] == '1' && visited[i][j] == false){
-                    queue<pair<int, int>> q;
-                    q.push({i, j});
-                    cnt++;
-                    visited[i][j] = true;
-                    while(q.empty() == false){
-                        auto curr = q.front();
-                        q.pop();
-                        for(auto &e : directions){
-                            int newX = curr.first + e[0];
-                            int newY = curr.second + e[1];
-                            if(newX >= 0 && newX < n && newY >= 0 && newY < m && grid[newX][newY] == '1' && visited[newX][newY] == false){
-                                visited[newX][newY] = true;
-                                q.push({newX, newY});
-                            }
-                        }
-                    }
+        int ans = 0;
+        vector<vector<int>> vis(n, vector<int>(m,0));
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(vis[i][j]==0 && grid[i][j]=='1'){
+                    ans++;
+                    dfs(i,j,grid,vis,n,m);
                 }
             }
         }
-        return cnt;
+        return ans;
     }
 };
