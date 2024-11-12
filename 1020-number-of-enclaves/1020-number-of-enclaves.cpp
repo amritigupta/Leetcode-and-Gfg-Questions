@@ -11,18 +11,22 @@ public:
 
         for(int i=0; i<n; i++){
             if(grid[i][0]==1){
+                grid[i][0]=2;
                 q.push({i,0});
             }
             if(grid[i][m-1]==1){
+                grid[i][m-1]=2;
                 q.push({i, m-1});
             }
         }
 
         for(int j=0; j<m; j++){
             if(grid[0][j]==1){
+                grid[0][j]=2;
                 q.push({0, j});
             }
             if(grid[n-1][j]==1){
+                grid[n-1][j]=2;
                 q.push({n-1, j});
             }
         }
@@ -30,7 +34,7 @@ public:
         while(!q.empty()){
             int i = q.front().first;
             int j = q.front().second;
-            grid[i][j]=2;
+            
             q.pop();
 
             for(int k=0; k<4; k++){
@@ -38,6 +42,7 @@ public:
                 int nj = j+dj[k];
 
                 if(ni>=0 && ni<n && nj>=0 && nj<m && grid[ni][nj]==1){
+                    grid[ni][nj]=2;
                     q.push({ni,nj});
                 }
             }
