@@ -26,7 +26,7 @@ public:
             for(int l=0; l<sz; l++){
                 int i = q.front().first;
                 int j = q.front().second;
-                cout<<i<<" "<<j<<endl;
+                // cout<<i<<" "<<j<<endl;
                 q.pop();
 
                 for(int k=0; k<4; k++){
