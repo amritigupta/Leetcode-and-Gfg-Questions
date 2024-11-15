@@ -1,29 +1,20 @@
 class Solution {
-    int f(int i, int j, int m, int n, vector<vector<int>>& triangle, vector<vector<int>>& dp ){
-        if(i==m-1){ //on last row
-            return triangle[i][j];
+    int f(int row, int idx, vector<vector<int>>& triangle, int n, vector<vector<int>>& dp){
+        if(row==n-1){
+            return triangle[row][idx];
         }
-        if(i>=m || j>i+1){
-            return 1e5;
-        }
-        
-        if(dp[i][j]!=-1){
-            return dp[i][j];
-        }
-        
 
-           int one = triangle[i][j] + f(i+1, j, m, n, triangle, dp);
-            int two = triangle[i][j] + f(i+1, j+1, m , n , triangle, dp);
+        if(dp[row][idx]!=-1) return dp[row][idx];
 
-        
-        return dp[i][j] = min(one, two);
+        int mini = INT_MAX;
+        mini = min(mini, min(f(row+1, idx, triangle, n, dp), f(row+1, idx+1, triangle,n, dp)));
+
+        return dp[row][idx]= triangle[row][idx] + mini;
     }
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
-        int m = triangle.size();
-        int n = triangle[m-1].size(); //last row size
-         vector<vector<int>>dp (m+1, vector<int> (n+1,-1));
-        
-        return f(0,0,m,n,triangle, dp);     
+        int n = triangle.size();
+        vector<vector<int>> dp(n, vector<int>(201, -1));
+        return f(0,0, triangle, n, dp);
     }
 };
