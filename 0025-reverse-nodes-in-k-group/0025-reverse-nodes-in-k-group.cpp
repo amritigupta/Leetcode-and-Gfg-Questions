@@ -22,13 +22,14 @@ int getLength(ListNode* head) {
     }
 
     return length;
-    }
+}
 
 ListNode* reverseK(ListNode* &head, int k, int length) {
         
     //Base case
     if(head == NULL || head -> next == NULL || k == 1 || length < k)
         return head;
+    
     
     //Step 1 : Reverse first k nodes
     ListNode* nxt = NULL;
@@ -44,6 +45,7 @@ ListNode* reverseK(ListNode* &head, int k, int length) {
         prev = curr;
         curr = nxt;
         count++;
+        
     }
 
     //Step 2 : Reverse next k nodes using recursion
@@ -53,14 +55,13 @@ ListNode* reverseK(ListNode* &head, int k, int length) {
 
     //Step 3 : Return head of the reversed linked list
     head = prev;
-    
     return head;
-    }
+  }
 
-ListNode* reverseKGroup(ListNode* head, int k) {
+    ListNode* reverseKGroup(ListNode* head, int k) {
 
     int len = getLength(head);
     
     return reverseK(head, k, len);
-    }
+   }
 };
