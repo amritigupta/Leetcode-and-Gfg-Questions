@@ -1,9 +1,11 @@
 class Solution {
 public:
     int numberOfSubstrings(string s) {
+        int i=0;
+        int j=0;
         int n = s.size();
-        int i=0, j=0, cnt=0;
         unordered_map<char,int> mpp;
+        int cnt=0;
         while(j<n){
             mpp[s[j]]++;
             while(mpp['a'] && mpp['b'] && mpp['c']){
@@ -13,7 +15,6 @@ public:
             }
             j++;
         }
-
         return cnt;
     }
 };
