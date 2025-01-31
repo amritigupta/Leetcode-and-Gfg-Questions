@@ -1,125 +1,96 @@
-// DSU HELPS IN DYNAMIC MERGING/CONNECTING
-
-class DisjointSet {
-	vector<int> rank, parent;
-public:
-	DisjointSet(int n) {
-		rank.resize(n + 1, 0);
-		parent.resize(n + 1);
-		for (int i = 0; i <= n; i++) {
-			parent[i] = i;
-		}
-	}
-
-	int findupar(int node) {
-		if (node == parent[node]) {
-			return node;
-		}
-
-		return parent[node] = findupar(parent[node]); //path compression
-	}
-
-	void unionbyrank(int u, int v) {
-		int ulp_u = findupar(u);
-		int ulp_v = findupar(v);
-		if (ulp_u == ulp_v) {
-			// u and v belong to same component
-			return;
-		}
-
-		if (rank[ulp_u] < rank[ulp_v]) {
-			//smaller gets attached to larger
-			//rank doesnt change
-			parent[ulp_u] = ulp_v;
-		}
-		else if (rank[ulp_u] > rank[ulp_v]) {
-			//smaller gets attached to larger
-			//rank doesnt change
-			parent[ulp_v] = ulp_u;
-		}
-		else {
-			//attach v to u (or vice versa)
-			//incease rank of u by 1 (or vice versa)
-			parent[ulp_v] = ulp_u;
-			rank[ulp_u]++;
-		}
-	}
-};
-
 class Solution {
+    vector<int> size;
+    vector<int> parent;
+
 public:
-    vector<vector<string>> accountsMerge(vector<vector<string>> &accounts) {
-        int n = accounts.size();
-        DisjointSet ds(n);
-        // cout<<n<<endl;
-        unordered_map <string, int> mapmailnode;
-        
-        for(int i=0; i<accounts.size(); i++){
-            for(int j=1 ; j<accounts[i].size(); j++){
-                if(mapmailnode.find(accounts[i][j])==mapmailnode.end()){
-                    mapmailnode[accounts[i][j]] = i;
-                    // cout<<accounts[i][j]<<" "<<i<<endl;
-                }
-                else{
-                    ds.unionbyrank(mapmailnode[accounts[i][j]], i);
-                }
-            }
-        }
-        
+    int findupar(int v){
+        if(parent[v]==v) return v;
+        else return parent[v]=findupar(parent[v]);
+    }
 
-        unordered_map <int, set<string>> mpp;
-
-        for(int i=0; i<n; i++){
-            cout<<i<<" "<<ds.findupar(i)<<endl;
-            if(ds.findupar(i)==i){
-                if(mpp.find(i)==mpp.end()){
-                  set<string> s;
-                  for(int j=1; j<accounts[i].size(); j++){
-                    s.insert(accounts[i][j]);
-                  }
-                  mpp[i]=s;
-                }
-                else{
-                  for(int k=1; k<accounts[i].size(); k++){
-                    mpp[i].insert(accounts[i][k]);
-                    // john's map is added w john00
-                   }     
-                }
-                // john is matched to johnsmith and john_newyork
-                // mary with mary
-                //john with johnnybravo
+    void Union(int i, int j){
+        int upri=findupar(i);
+        int uprj=findupar(j);
+        if(upri==uprj) return;
+        else{
+            if(size[upri]<size[uprj]){
+                parent[upri]=uprj;
+                size[uprj]+=size[upri];
             }
             else{
-                int ultimateparent = ds.findupar(i); // 1 -> 0
+                parent[uprj]=upri;
+                size[upri]+=size[uprj];                
+            }
+        }
+    }
 
-                if(mpp.find(ultimateparent)!=mpp.end()){
-                  for(int k=1; k<accounts[i].size(); k++){
-                    mpp[ultimateparent].insert(accounts[i][k]);
-                    // john's map is added w john00
-                   }
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        unordered_map<string, int> mpp;
+        unordered_map<int, vector<string>> mpp2;
+
+        int n = accounts.size();
+        size.resize(n);
+        parent.resize(n);
+
+        for(int i=0; i<n; i++){
+            parent[i]=i;
+            size[i]=1;
+        }
+
+        for(int i=0; i<accounts.size(); i++){
+            for(int j=1; j<accounts[i].size(); j++){
+                if(mpp.find(accounts[i][j])==mpp.end()){        
+                    mpp[accounts[i][j]]=i;
+                    mpp2[i].push_back(accounts[i][j]);
                 }
                 else{
-                  set<string> s;
-                  for(int j=1; j<accounts[i].size(); j++){
-                    s.insert(accounts[i][j]);
-                  }
-                  mpp[ultimateparent]=s; 
+                    Union(i, mpp[accounts[i][j]]);
+                    mpp2[i].push_back(accounts[i][j]);
                 }
             }
         }
-        
-        vector<vector<string>> ans;
-        for(auto it: mpp){
-            vector<string> s;
-            s.push_back(accounts[it.first][0]);
-            for(auto it2: it.second){
-                s.push_back(it2);
+
+        for(int i=0; i<accounts.size(); i++){
+            if(parent[i]!=i){
+                int upri=parent[i];
+                vector<string> s2 = mpp2[i];
+                for(auto it: s2) mpp2[parent[i]].push_back(it);
             }
-            ans.push_back(s);
         }
-        
-        return ans;
-        
+
+        vector<vector<string>> ans;
+        for(int i=0; i<accounts.size(); i++){
+            if(parent[i]==i){
+                vector<string> v;
+                set<string> st;
+                v.push_back(accounts[i][0]); //pushes back John
+                vector<string> v2 = mpp2[i];
+                for(auto it: v2) st.insert(it);
+                for(auto it: st) v.push_back(it);
+                ans.push_back(v);
+            }
+        }    
+
+        return ans;   
     }
- 
 };
+
+
+// 0 - 1
+// 2
+// 3
+
+// 0 - johnsmith@mail.com, john_newyork@mail.com
+// 1 - john00@mail.com, johnsmith@mail.com
+// 2 - mary@mail.com 
+// 3 - johnnybravo@mail.com
+
+
+//johnsmith@mail.com - 0
+//john_newyork@mail.com - 0
+
+//  john00@mail.com - 1
+// johnsmith@mail.com - 1
+
+// mary@mail.com - 2
+// johnnybravo@mail.com - 3
