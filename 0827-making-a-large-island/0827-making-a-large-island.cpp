@@ -1,116 +1,121 @@
-// COMPONENTS == GRAPH
-// DYNAMICALLY CHANGING GRAPH == DSU
-
-class DisjointSet{
-    
-public:
-    vector <int> parent, size;
-    
-    DisjointSet(int n){
-        parent.resize(n + 1);
-        size.resize(n + 1);
-        
-        for (int i = 0; i < n; i++)
-        {
-            parent[i] = i;
-            size[i] = 1;
-        }
-    }
-
-    int findUltimateParent(int node){
-        if (node == parent[node]){
-            return node;
-        }
-
-        return parent[node] = findUltimateParent(parent[node]);
-    }
-
-    void unionBySize(int u, int v){
-        int ulp_u = findUltimateParent(u);
-        int ulp_v = findUltimateParent(v);
-
-        if(ulp_u==ulp_v){
-            return;
-        }     
-
-        if(size[ulp_u]< size[ulp_v])  {
-            parent[ulp_u] = ulp_v;
-            size[ulp_v] += size[ulp_u];
-        }
-        else {
-            parent[ulp_v] = ulp_u;
-            size[ulp_u] += size[ulp_v];
-        }
-    }
-
-};
-
 class Solution {
 public:
+    vector<int> size;
+    vector<int> parent;
+
+    vector<int> di={-1,1,0,0};
+    vector<int> dj={0,0,-1,1};
+
+    int findupar(int v){
+        if(parent[v]==v){
+            return v;
+        }
+        else return parent[v]=findupar(parent[v]);
+    }
+
+    void Union(int u, int v){
+        int ulpu = findupar(u);
+        int ulpv = findupar(v);
+        if(ulpu!=ulpv){
+            if(size[ulpu]<size[ulpv]){
+                size[ulpv]+=size[ulpu];
+                parent[ulpu]=ulpv;
+            }
+            else{
+                size[ulpu]+=size[ulpv];
+                parent[ulpv]=ulpu;
+            }
+        }
+    }
+
+    bool isvalid(int x, int y, int n){
+        if(x>=0 && x<n && y>=0 && y<n) return true;
+        return false;
+    }
+
+    void dfs(int i, int j, vector<vector<int>>& grid, vector<vector<int>>& vis, int n){
+
+        vis[i][j]=1;
+
+        for(int k=0; k<4; k++){
+            int ni=i+di[k];
+            int nj=j+dj[k];
+            if(isvalid(ni,nj,n) && grid[ni][nj]==1 && vis[ni][nj]==0){
+                Union(n*i+j, n*ni+nj);
+                dfs(ni, nj, grid, vis, n);
+            }
+        }
+    }
+
     int largestIsland(vector<vector<int>>& grid) {
         int n = grid.size();
-        DisjointSet ds(n*n);
-        
-        int dr[]={-1,0,1,0};
-        int dc[]={0,-1,0,1};
-        
-        
-        // STEP1 - CONNECTING COMPONENTS
-        for (int row = 0; row<n ; row++){
-            for(int col = 0 ; col<n ; col++){
-                if (grid[row][col]==0){
-                    continue;
+        size.resize(n*n);
+        parent.resize(n*n);
+        bool all1sflag=true;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                size[i*n + j]=1;
+                parent[i*n+j]=i*n+j;
+                if(grid[i][j]==0){
+                    all1sflag=false;
                 }
-                
-                for(int i=0 ; i<4; i++){
-                    int nrow = row+dr[i];
-                    int ncol = col+dc[i];
-                    
-                    if(nrow>=0 && nrow<n && ncol>=0 && ncol<n && grid[nrow][ncol]==1){
-                        int nodeno = row*n + col;
-                        int adjnodeno = nrow*n + ncol;
-                        ds.unionBySize(nodeno, adjnodeno);
-                    }
-                }
-                
             }
         }
-        
-        //STEP2- BRUTE FORCE :  TRY TO CONVERT EVERY ZERO
-        int mx =0;
-        for (int row = 0; row<n ; row++){
-            
-            for(int col = 0 ; col<n ; col++){
-                if (grid[row][col]==1){
-                    continue;
+
+        if(all1sflag) return n*n;
+
+        vector<vector<int>> vis(n, vector<int>(n, 0));
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                if(grid[i][j]==1 && vis[i][j]==0){
+                    dfs(i, j, grid, vis, n);
                 }
-                
-                set<int> components;
-                
-                for(int i=0 ; i<4; i++){
-                    int nrow = row+dr[i];
-                    int ncol = col+dc[i];
-                    if(nrow>=0 && nrow<n && ncol>=0 && ncol<n){
-                        if(grid[nrow][ncol]==1){
-                            components.insert(ds.findUltimateParent(nrow*n + ncol));
+            }
+        }
+
+        int maxi=0;
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                if(grid[i][j]==0){
+                    int mx=1;
+                    unordered_set<int> st;
+                    for(int k=0; k<4; k++){
+                        int ni=i+di[k];
+                        int nj=j+dj[k];
+                        if(isvalid(ni,nj,n) && grid[ni][nj]==1){
+                            // cout<<ni<<" "<<nj<<endl;      
+
+                            int upar=findupar(ni*n+nj);
+
+                            // cout<<upar<<endl;
+                            // cout<<size[upar]<<endl;
+                            
+                            if(st.count(upar)==0) mx+=size[upar];
+                            st.insert(upar);
                         }
                     }
+                    maxi=max(mx, maxi);
+                    cout<<maxi<<endl;
                 }
-                
-                int size = 1; //1 because of the zero being converted to one
-                for (auto it: components){
-                    size += ds.size[it];
-                }
-                
-                mx = max(size, mx);
             }
-        }    
-        
-        
-        for(int cellno =0; cellno<n*n ; cellno++){
-            mx = max(mx, ds.size[ds.findUltimateParent(cellno)]);
-        }
-        
-        return mx;
+        }     
+
+        // int x=0;
+        // for(auto it: size){
+        //     cout<<x<<" "<<it<<endl;
+        //     x++;
+        // }
+
+
+        // x=0;
+        // for(auto it: parent){
+        //     cout<<x<<" "<<it<<endl;
+        //     x++;
+        // }
+
+        return maxi;
+
     }
 };
