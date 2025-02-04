@@ -1,15 +1,20 @@
 class Solution {
 public:
     void rotate(vector<int>& nums, int k) {
-        
-        k = k%(nums.size());
-        if (k>= nums.size()){
-            
+        int n = nums.size();
+        k = k % n;
+        if(k==0) return;
+
+        vector<int> temp; 
+        for(int i=n-k; i<n; i++){ //push last k elements into temp
+            temp.push_back(nums[i]);
         }
-        if (k<nums.size()){
-        reverse(nums.begin(), nums.end());
-        reverse(nums.begin(), nums.begin()+k);
-        reverse(nums.begin()+k,nums.end() );
+        for(int i=n-k-1; i>=0; i--){ //shift the first few elements by k
+            nums[i+k]=nums[i];
         }
+        for(int i=0; i<k; i++){
+            nums[i]=temp[i];
+        }
+
     }
 };
