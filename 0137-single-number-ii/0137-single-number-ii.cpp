@@ -1,25 +1,25 @@
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-        int n= nums.size();
-        vector<int> f(32,0);
-        
-        for(int e : nums){
-            for(int i=0; i<32; i++){
-                if(e & (1<<i)){
-                    f[i]++;
+        int n = nums.size();
+        int ans = 0;
+        for(int bitindex=0; bitindex<=31; bitindex++){
+            int cnt=0;
+            // cout<<bitindex<<endl;
+            for(int i=0; i<n; i++){
+                // cout<<nums[i]<<" "<<(1<<bitindex)<<" ";
+                int x = nums[i]&(1<<bitindex);
+                // cout<<x<<endl;
+                if((nums[i]&(1<<bitindex))){
+                    cnt++;
                 }
+                
+            }
+            // cout<<endl<<bitindex<<" "<<cnt<<endl;
+            if(cnt%3!=0){
+                ans = ans|(1<<bitindex);
             }
         }
-        
-        //construct result
-        int res = 0;
-        for(int i=0; i<32; i++){
-            if(f[i]%3 == 1){
-                res += (1<<i); // 1<<i == 2^i
-            }
-        }
-        
-        return res;
+        return ans;
     }
 };
