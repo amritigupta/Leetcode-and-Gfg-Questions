@@ -1,34 +1,46 @@
 class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
-        int xorr = 0;
-
+        int res=0;
         for(auto it: nums){
-            xorr^=it;
+            res^=it;
         }
+        cout<<res<<endl;
+        //res contains xor of the two elements
+        // if a bit is set in res
+        // it means that bit is set in one of the 2 integers
 
-        int i=0;
-        while(true){
-            if(xorr&1==1) break;
-            xorr>>=1;
-            i+=1;
-        }
-        //ith bit is set to 1
-        // cout<<i<<endl;
+        // lets find that integer now
+        int x1 = 0;
+        int x2 = 0;
 
-        int x1 =0;
-        int x2=0;
-        for(auto it: nums){
-            if((it>>i & 1) == 0){
-                x1^=it;
-                // cout<<1<<it<<endl;
+        // 6 = 1 1 0 
+        // 0 0 1
+        // 0 1 0
+        // 0 0 1
+        // 0 1 1
+        // 0 1 0
+        // 1 0 1
+
+        for(int i=31; i>=0; i--){
+
+            if((res&(1<<i))!=0){
+                for(int num: nums){
+                    if((num&(1<<i))!=0){
+                        x1^=num;        
+                    }
+                    else{
+                        x2^=num;
+                        
+                    }
+                }
+
+                break;
             }
-            else{
-                x2^=it;
-                // cout<<2<<it<<endl;
-            }
+            
         }
 
-        return {x1, x2};
+        vector<int> v = {x1, x2};
+        return v;
     }
 };
