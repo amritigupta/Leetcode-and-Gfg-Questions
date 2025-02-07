@@ -1,34 +1,34 @@
 class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
-        vector<int> p;
-        int x=0;
-        for(int i=0; i<nums.size();i++){
-            x=x^nums[i];
+        int xorr = 0;
+
+        for(auto it: nums){
+            xorr^=it;
         }
-        
-        int pos = 0;
-        int temp = x;
-        
-        while((temp&1)==0){
-            pos++;
-            temp=temp>>1;
+
+        int i=0;
+        while(true){
+            if(xorr&1==1) break;
+            xorr>>=1;
+            i+=1;
         }
-        
-        int seta = 0;
-        int setb = 0;
-        int mask = (1<<pos);
-        for(int i=0; i<nums.size(); i++){
-            if((mask&nums[i])>0){
-                seta = seta^nums[i];
+        //ith bit is set to 1
+        // cout<<i<<endl;
+
+        int x1 =0;
+        int x2=0;
+        for(auto it: nums){
+            if((it>>i & 1) == 0){
+                x1^=it;
+                // cout<<1<<it<<endl;
             }
             else{
-                setb=setb^nums[i];
+                x2^=it;
+                // cout<<2<<it<<endl;
             }
         }
-        p.push_back(seta);
-        p.push_back(setb);
-        
-        return p;
+
+        return {x1, x2};
     }
 };
